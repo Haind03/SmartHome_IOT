@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Logs activity</h1>
+<table id="log-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Device</th>
+            <th>Value</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.id }}</td>
+            <td>{{ log.date }}</td>
+            <td>{{ log.device }}</td>
+            <td>{{ log.value }}</td>
+            <td>{{ log.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for('logs', page=page-1) }}" class="prev">&laquo; Previous</a>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+    <a href="{{ url_for('logs', page=p) }}" class="{% if p == page %}active{% endif %}">
+        {{ p }}
+    </a>
+    {% endfor %}
+
+    {% if page < total_pages %}
+    <a href="{{ url_for('logs', page=page+1) }}" class="next">Next &raquo;</a>
+    {% endif %}
+</div>
+{% endblock %}

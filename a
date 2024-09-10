@@ -1,0 +1,14 @@
+0 kernel32_VirtualAlloc
+1 kernel32_VirtualFree
+2 kernel32_CloseHandle
+4 kernel32_GetComputerNameA
+5 kernel32_CreateProcessA
+6 kernel32_Sleep
+7 kernel32_CreateThread
+8 wininet_InternetOpenA
+9 wininet_InternetConnectA
+10 wininet_InternetOpenUrlA
+11 wininet_InternetReadFile
+12 wininet_HttpOpenRequestA
+13 wininet_HttpSendRequestA
+14 wininet_InternetCloseHandle

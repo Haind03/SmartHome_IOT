@@ -1,0 +1,86 @@
+[
+    {
+        "id": 12,
+        "device": "Device 3",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:52:53"
+    },
+    {
+        "id": 11,
+        "device": "Device 2",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:52:53"
+    },
+    {
+        "id": 10,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:52:53"
+    },
+    {
+        "id": 9,
+        "device": "Device 3",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:35"
+    },
+    {
+        "id": 8,
+        "device": "Device 2",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:35"
+    },
+    {
+        "id": 7,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:35"
+    },
+    {
+        "id": 6,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:22"
+    },
+    {
+        "id": 5,
+        "device": "Device 1",
+        "value": "OFF",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:21"
+    },
+    {
+        "id": 4,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:19"
+    },
+    {
+        "id": 3,
+        "device": "Device 1",
+        "value": "OFF",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:19"
+    },
+    {
+        "id": 2,
+        "device": "Device 3",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:50:23"
+    },
+    {
+        "id": 2,
+        "device": "Device 2",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:50:23"
+    }
+]

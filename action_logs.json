@@ -1,0 +1,450 @@
+[
+    {
+        "id": 12,
+        "device": "Device 3",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:52:53"
+    },
+    {
+        "id": 11,
+        "device": "Device 2",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:52:53"
+    },
+    {
+        "id": 10,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:52:53"
+    },
+    {
+        "id": 9,
+        "device": "Device 3",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:35"
+    },
+    {
+        "id": 8,
+        "device": "Device 2",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:35"
+    },
+    {
+        "id": 7,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:35"
+    },
+    {
+        "id": 6,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:22"
+    },
+    {
+        "id": 5,
+        "device": "Device 1",
+        "value": "OFF",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:21"
+    },
+    {
+        "id": 4,
+        "device": "Device 1",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:19"
+    },
+    {
+        "id": 3,
+        "device": "Device 1",
+        "value": "OFF",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:51:19"
+    },
+    {
+        "id": 2,
+        "device": "Device 3",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:50:23"
+    },
+    {
+        "id": 2,
+        "device": "Device 2",
+        "value": "ON",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:50:23"
+    },
+    {
+        "id": 1,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-95.99",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 5,
+        "device": "home/berk/photovoltaik/export",
+        "value": "463",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 4,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-96.51",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 2,
+        "device": "home/energy/power",
+        "value": "56.40",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 1,
+        "device": "home/energy/cost",
+        "value": "2.22",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 3,
+        "device": "home/energy/pf",
+        "value": "0.70",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 2,
+        "device": "home/energy/frequency",
+        "value": "49.9",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 3,
+        "device": "home/energy/energy",
+        "value": "0.530",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 3,
+        "device": "home/energy/energy",
+        "value": "0.530",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 2,
+        "device": "home/energy/current",
+        "value": "0.35",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 1,
+        "device": "home/energy/current",
+        "value": "0.35",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:15"
+    },
+    {
+        "id": 155,
+        "device": "home/energy/voltage",
+        "value": "226.50",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:14"
+    },
+    {
+        "id": 1,
+        "device": "home/energy/voltage",
+        "value": "226.50",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:14"
+    },
+    {
+        "id": 154,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-97.65",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:13"
+    },
+    {
+        "id": 1,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-97.65",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:21:14"
+    },
+    {
+        "id": 153,
+        "device": "home/berk/Temp",
+        "value": "26.3",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:13"
+    },
+    {
+        "id": 152,
+        "device": "home/berk/hum",
+        "value": "43.1",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:13"
+    },
+    {
+        "id": 151,
+        "device": "home/studna",
+        "value": "RSSI:-74 data:1709835 ",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:13"
+    },
+    {
+        "id": 150,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-96.26",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:13"
+    },
+    {
+        "id": 149,
+        "device": "home/berk/z\u00e4hler/export",
+        "value": "165.802",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:02"
+    },
+    {
+        "id": 148,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-96.67",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:02"
+    },
+    {
+        "id": 147,
+        "device": "home/berk/photovoltaik/export",
+        "value": "462",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:12:01"
+    },
+    {
+        "id": 146,
+        "device": "home/berk/z\u00e4hler/export",
+        "value": "165.801",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:57"
+    },
+    {
+        "id": 145,
+        "device": "home/berk/z\u00e4hler/bezug",
+        "value": "4065.464",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:57"
+    },
+    {
+        "id": 144,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-95.49",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:57"
+    },
+    {
+        "id": 143,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-95.2",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:52"
+    },
+    {
+        "id": 142,
+        "device": "home/berk/photovoltaik/export",
+        "value": "462",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:51"
+    },
+    {
+        "id": 141,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-95.04",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:46"
+    },
+    {
+        "id": 140,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-95.56",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 139,
+        "device": "home/berk/photovoltaik/export",
+        "value": "461",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 138,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-96.84",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 137,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-94.12",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 136,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-94.84",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 135,
+        "device": "home/berk/z\u00e4hler/export",
+        "value": "165.801",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 134,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-143.93",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 133,
+        "device": "home/berk/photovoltaik/export",
+        "value": "460",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:43"
+    },
+    {
+        "id": 132,
+        "device": "home/berk/z\u00e4hler/export",
+        "value": "165.8",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:42"
+    },
+    {
+        "id": 131,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-141.87",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:42"
+    },
+    {
+        "id": 130,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-95.56",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:42"
+    },
+    {
+        "id": 129,
+        "device": "home/berk/photovoltaik/export",
+        "value": "461",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:42"
+    },
+    {
+        "id": 128,
+        "device": "home/berk/hum",
+        "value": "43.1",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:42"
+    },
+    {
+        "id": 127,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-96.84",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:37"
+    },
+    {
+        "id": 126,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-94.12",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:33"
+    },
+    {
+        "id": 125,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-94.84",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:27"
+    },
+    {
+        "id": 124,
+        "device": "home/berk/z\u00e4hler/export",
+        "value": "165.801",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:27"
+    },
+    {
+        "id": 123,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-143.93",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:27"
+    },
+    {
+        "id": 122,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-141.87",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:27"
+    },
+    {
+        "id": 121,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-141.32",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:12"
+    },
+    {
+        "id": 120,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-140.08",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:09"
+    },
+    {
+        "id": 119,
+        "device": "home/berk/z\u00e4hler/gesamt",
+        "value": "-137.64",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:02"
+    },
+    {
+        "id": 118,
+        "device": "home/berk/photovoltaik/export",
+        "value": "460",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:11:01"
+    },
+    {
+        "id": 117,
+        "device": "home/berk/z\u00e4hler/export",
+        "value": "165.8",
+        "date": "2024-08-28",
+        "timestamp": "2024-08-28 15:10:57"
+    }
+]
