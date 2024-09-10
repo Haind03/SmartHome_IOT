@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<!-- Upper Section: Three Boxes with Attribute Values -->
+<div class="stats-boxes">
+    <div class="box" id="light-box">
+        <span>Ánh sáng:</span>
+        <span id="light-intensity">20</span>
+    </div>
+    <div class="box" id="moisture-box">
+        <span>Độ ẩm:</span>
+        <span id="moisture">30</span>
+    </div>
+    <div class="box" id="temperature-box">
+        <span>Nhiệt độ:</span>
+        <span id="temperature">25</span>
+    </div>
+</div>
+
+<!-- Lower Section: Graph and Switches -->
+<div class="lower-section">
+    <!-- Left Section: Large Graph -->
+    <div class="chart-container">
+        <canvas id="satisfaction-chart"></canvas>
+    </div>
+
+    <!-- Right Section: Group of Switches -->
+    <div class="switches-section">
+        <div class="switches-column">
+            <div class="switch-box" id="switch-light-box">
+                <span>Đèn</span>
+                <input type="checkbox" id="light-switch-1" class="light-switch">
+                <label for="light-switch-1" class="switch-label"></label>
+            </div>
+            <div class="switch-box" id="switch-light-box">
+                <span>Điều hòa</span>
+                <input type="checkbox" id="light-switch-2" class="light-switch">
+                <label for="light-switch-2" class="switch-label"></label>
+            </div>
+            <div class="switch-box" id="switch-light-box">
+                <span>Quạt</span>
+                <input type="checkbox" id="light-switch-3" class="light-switch">
+                <label for="light-switch-3" class="switch-label"></label>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

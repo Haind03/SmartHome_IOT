@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOT Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <!-- Replace the logo with a text title -->
+        <h1 class="sidebar-title">IOT Haind</h1>
+        <div class="menu-box"><a href="/" class="menu-item">Dashboard</a></div>
+        <div class="menu-box"><a href="/logs" class="menu-item">Logs activity</a></div>
+        <div class="menu-box"><a href="/action_history" class="menu-item">Action History</a></div>
+        <div class="menu-box"><a href="/profile" class="menu-item">Profile</a></div>
+    </div>
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

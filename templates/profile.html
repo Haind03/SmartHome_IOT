@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <!-- Use url_for to link to the image in the static folder and apply a smaller size -->
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Profile Picture" class="profile-picture" style="width: 100px; height: 100px;">
+        <div class="profile-info">
+            <h2>Haind</h2>
+            <p>Email: ndinhhaibn@gmail.com</p>
+            <p>Phone: 0912554181</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
