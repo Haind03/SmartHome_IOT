@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Smart Home Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <a href="/" class="logo">Smart Home Dashboard</a>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-nav">
+      <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" href="action_history">Action History</a></li>
+      <li class="nav-item"><a class="nav-link" href="sensor_data">Sensor Data</a></li>
+      <li class="nav-item"><a class="nav-link" href="users_profile">Profile</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="pagetitle">Data Tables</div>
+
+    <!-- Search and Filter -->
+    <div class="input-group">
+      <select id="fieldSelect">
+        <option value="id">ID</option>
+        <option value="device_name">Device</option>
+        <option value="status">Status</option>
+        <option value="timestamp">Time</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Search" onkeyup="fetchActionHistory()">
+      <select id="sortOrderSelect" onchange="changeSortOrder()">
+        <option value="desc">Descending</option>
+        <option value="asc">Ascending</option>
+      </select>
+      <select id="rowsPerPageSelect" onchange="changeRowsPerPage()">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+
+    <!-- Action History Table -->
+    <div class="card">
+      <h5 class="card-title">Action History</h5>
+      <table class="table">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">ID</th>
+            <th onclick="sortTable(1)">Device</th>
+            <th onclick="sortTable(2)">Status</th>
+            <th onclick="sortTable(3)">Time</th>
+          </tr>
+        </thead>
+        <tbody id="action-history-table-body">
+          <!-- Data will be populated by API -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div>
+      <ul class="pagination" id="pagination">
+        <!-- Pagination links will be dynamically generated -->
+      </ul>
+    </div>
+  </main>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <script>
+
+
+    let currentPage = 1;
+    let limit = 10; // Mặc định là 10 hàng mỗi trang
+    let totalPages = 0; // Tổng số trang sẽ được tính từ dữ liệu API
+    let sortOrder = 'desc';
+    function changeSortOrder() {
+      const sortOrderSelect = document.getElementById('sortOrderSelect');
+      sortOrder = sortOrderSelect.value;  // Lấy giá trị từ dropdown (asc/desc)
+      fetchActionHistory();  // Gọi lại API để tải dữ liệu với thứ tự sắp xếp mới
+    }
+    // Hàm để lấy dữ liệu từ API và hiển thị
+    async function fetchActionHistory() {
+      const searchQuery = document.getElementById('searchInput').value;
+      const fieldSelect = document.getElementById('fieldSelect').value;  // Get selected field
+
+      try {
+        // Modify the API call to include the selected field for searching
+        const response = await fetch(`/api/v1/device/logs?page=${currentPage}&limit=${limit}&search=${searchQuery}&sort=${sortOrder}&field=${fieldSelect}`);
+        const result = await response.json();
+
+        const tableBody = document.getElementById('action-history-table-body');
+        tableBody.innerHTML = ''; // Clear previous content
+
+        result.data.forEach(log => {
+          // Create and append each row
+          const row = document.createElement('tr');
+          row.innerHTML = `
+                <td>${log.id}</td>
+                <td>${log.device_name}</td>
+                <td>${log.status}</td>
+                <td>${log.timestamp}</td>
+            `;
+          tableBody.appendChild(row);
+        });
+
+        totalPages = Math.ceil(result.total_count / limit);
+        renderPagination();
+
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+      }
+    }
+
+    // Hàm render các số trang
+    function renderPagination() {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = ''; // Xóa các số trang cũ
+
+      const maxPagesToShow = 5; // Số trang tối đa hiển thị (bao gồm trang hiện tại)
+      const halfMaxPages = Math.floor(maxPagesToShow / 2);
+
+      // Thêm nút "Previous"
+      const prevLi = document.createElement('li');
+      prevLi.classList.add('page-item');
+      prevLi.classList.toggle('disabled', currentPage === 1);
+      prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>`;
+      pagination.appendChild(prevLi);
+
+      let startPage = Math.max(1, currentPage - halfMaxPages);
+      let endPage = Math.min(totalPages, currentPage + halfMaxPages);
+
+      // Điều chỉnh nếu trang hiện tại nằm gần đầu hoặc cuối
+      if (currentPage <= halfMaxPages) {
+        endPage = Math.min(totalPages, maxPagesToShow);
+      }
+      if (currentPage > totalPages - halfMaxPages) {
+        startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+      }
+
+      // Thêm dấu "..." trước các trang đầu tiên nếu cần
+      if (startPage > 1) {
+        const firstPageLi = document.createElement('li');
+        firstPageLi.classList.add('page-item');
+        firstPageLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(1)">1</a>`;
+        pagination.appendChild(firstPageLi);
+
+        if (startPage > 2) {
+          const dotsLi = document.createElement('li');
+          dotsLi.classList.add('page-item', 'disabled');
+          dotsLi.innerHTML = `<span class="page-link">...</span>`;
+          pagination.appendChild(dotsLi);
+        }
+      }
+
+      // Hiển thị các trang trong khoảng startPage đến endPage
+      for (let i = startPage; i <= endPage; i++) {
+        const pageLi = document.createElement('li');
+        pageLi.classList.add('page-item');
+        if (i === currentPage) {
+          pageLi.classList.add('active');
+        }
+        pageLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+        pagination.appendChild(pageLi);
+      }
+
+      // Thêm dấu "..." sau các trang cuối cùng nếu cần
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          const dotsLi = document.createElement('li');
+          dotsLi.classList.add('page-item', 'disabled');
+          dotsLi.innerHTML = `<span class="page-link">...</span>`;
+          pagination.appendChild(dotsLi);
+        }
+
+        const lastPageLi = document.createElement('li');
+        lastPageLi.classList.add('page-item');
+        lastPageLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a>`;
+        pagination.appendChild(lastPageLi);
+      }
+
+      // Thêm nút "Next"
+      const nextLi = document.createElement('li');
+      nextLi.classList.add('page-item');
+      nextLi.classList.toggle('disabled', currentPage === totalPages);
+      nextLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a>`;
+      pagination.appendChild(nextLi);
+    }
+
+    // Hàm thay đổi trang
+    function changePage(page) {
+      if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        fetchActionHistory();
+      }
+    }
+
+    // Hàm thay đổi số hàng hiển thị
+    function changeRowsPerPage() {
+      const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
+      limit = parseInt(rowsPerPageSelect.value); // Cập nhật số hàng trên mỗi trang
+      currentPage = 1; // Đặt lại về trang đầu
+      fetchActionHistory(); // Tải lại dữ liệu với số hàng mới
+    }
+
+    window.onload = fetchActionHistory;
+
+
+
+    // Hàm sắp xếp bảng theo cột
+    function sortTable(columnIndex) {
+      const table = document.querySelector(".datatable tbody");
+      const rows = Array.from(table.rows);
+
+      let isAscending = table.getAttribute('data-sort') === 'asc';
+      table.setAttribute('data-sort', isAscending ? 'desc' : 'asc');
+
+      rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].textContent.trim();
+        const cellB = rowB.cells[columnIndex].textContent.trim();
+
+        if (!isNaN(cellA) && !isNaN(cellB)) {
+          return isAscending ? cellA - cellB : cellB - cellA;
+        } else {
+          return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+        }
+      });
+
+      rows.forEach(row => table.appendChild(row)); // Cập nhật lại thứ tự các hàng
+    }
+  </script>
+</body>
+
+</html>

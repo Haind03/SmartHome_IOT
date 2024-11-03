@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Users / Profile - Smart Home</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+  <header class="header">Smart Home Dashboard</header>
+
+  <aside class="sidebar">
+    <ul>
+      <li><a href="/">Dashboard</a></li>
+      <li><a href="action_history">Action History</a></li>
+      <li><a href="sensor_data">Sensor Data</a></li>
+      <li><a href="users_profile">Profile</a></li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <section class="profile-container">
+      <!-- Profile Image & Social Links -->
+      <div class="profile-card">
+        <img src="{{ url_for('static', filename='assets/img/image.png') }}" alt="Profile">
+        <h2>Nguyễn Đình Hải</h2>
+        <h3>Reverse Engineering</h3>
+        <div class="social-links">
+          <a href="https://github.com/Haind03" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+          <a href="https://www.facebook.com/Halston.ND" target="_blank"><i class="bi bi-facebook"></i> Facebook</a>
+          <a href="#" target="_blank"><i class="bi bi-file-earmark-text"></i> Documentation</a>
+          <a href="#" target="_blank"><i class="bi bi-diagram-3"></i> Swagger</a>
+        </div>
+      </div>
+
+      <!-- Profile Details Table -->
+      <div class="profile-details">
+        <h3>Profile Details</h3>
+        <table>
+          <tr>
+            <th>Full Name</th>
+            <td>Nguyễn Đình Hải</td>
+          </tr>
+          <tr>
+            <th>Company</th>
+            <td>BlueCyber</td>
+          </tr>
+          <tr>
+            <th>Job</th>
+            <td>Malware Analysis</td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td>Việt Nam</td>
+          </tr>
+          <tr>
+            <th>Address</th>
+            <td>Hà Đông, Hà Nội</td>
+          </tr>
+          <tr>
+            <th>Phone</th>
+            <td>(+84) 912 554 181</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>ndinhhaibn@gmail.com</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </main>
+
+</body>
+
+</html>

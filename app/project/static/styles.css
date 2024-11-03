@@ -1,0 +1,373 @@
+/* Reset some default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Body */
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #1a1a2e;
+    color: #ffffff;
+    display: flex;
+    margin: 0;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #162447;
+    color: #21e6c1;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .header .logo {
+    color: #21e6c1;
+    text-decoration: none;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 220px;
+    background-color: #1f4068;
+    padding-top: 60px;
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 15px 20px;
+  }
+  
+  .sidebar ul li a {
+    color: #21e6c1;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .sidebar ul li a:hover {
+    color: #ffffff;
+    background-color: #2eca6a;
+    padding-left: 25px;
+    border-radius: 8px;
+  }
+  
+  /* Main content */
+  .main {
+    margin-left: 240px;
+    padding: 80px 20px;
+    flex: 1;
+  }
+  
+  .pagetitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .breadcrumb {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 0.5em;
+  }
+  
+  .breadcrumb a {
+    color: #21e6c1;
+    text-decoration: none;
+  }
+  
+  .breadcrumb-item.active {
+    color: #ffffff;
+  }
+  
+  /* Card */
+  .card {
+    background-color: #1f4068;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #21e6c1;
+    margin-bottom: 10px;
+  }
+  
+  /* Table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table thead {
+    background-color: #2eca6a;
+    color: #ffffff;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+  }
+  
+  .table th {
+    cursor: pointer;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #1f2d4d;
+  }
+  
+  /* Input group */
+  .input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .input-group select,
+  .input-group input {
+    background-color: #162447;
+    color: #ffffff;
+    border: 1px solid #2eca6a;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .input-group input::placeholder {
+    color: #21e6c1;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    padding: 0;
+    gap: 5px;
+  }
+  
+  .pagination .page-item {
+    background-color: #162447;
+    color: #21e6c1;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination .page-item.active {
+    background-color: #2eca6a;
+    color: #ffffff;
+  }
+  
+  .pagination .page-item:hover {
+    background-color: #2eca6a;
+    color: #ffffff;
+  }
+  
+  /* Profile container */
+  .profile-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  /* Profile card */
+  .profile-card {
+    background-color: #1f4068;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-card img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+  }
+  
+  .profile-card h2 {
+    margin: 10px 0;
+    color: #21e6c1;
+  }
+  
+  .profile-card h3 {
+    margin: 0;
+    color: #2eca6a;
+    font-size: 16px;
+  }
+  
+  .profile-card .social-links {
+    margin-top: 10px;
+  }
+  
+  .profile-card .social-links a {
+    margin: 0 10px;
+    color: #21e6c1;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .profile-card .social-links a:hover {
+    color: #2eca6a;
+  }
+  
+  /* Profile details */
+  .profile-details {
+    background-color: #1f4068;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-details h3 {
+    color: #21e6c1;
+    margin-bottom: 15px;
+  }
+  
+  .profile-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .profile-details th,
+  .profile-details td {
+    padding: 12px;
+    border-bottom: 1px solid #2e3b55;
+  }
+  
+  .profile-details th {
+    text-align: left;
+    color: #2eca6a;
+    font-weight: normal;
+    width: 30%;
+  }
+  
+  .profile-details td {
+    color: #ffffff;
+    width: 70%;
+  }
+  
+  /* Toggle button styling */
+  .device-control {
+    background-color: #1f4068;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 120px;
+    border: 2px solid #21e6c1;
+  }
+  
+  .device-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+  }
+  
+  .device-label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  .btn-toggle {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: gray;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-toggle.btn-on {
+    background-color: #2eca6a;
+  }
+  
+  /* Toggle switch styling */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2eca6a;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
