@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Smart Home</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Inline CSS -->
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #1a1a2e;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    .header {
+      background-color: #162447;
+      padding: 10px 20px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      color: #21e6c1;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .sidebar {
+      width: 220px;
+      background-color: #1f4068;
+      position: fixed;
+      top: 60px;
+      bottom: 0;
+      padding-top: 20px;
+      color: #fff;
+    }
+    .sidebar-nav .nav-item {
+      list-style: none;
+      padding: 15px 20px;
+      font-size: 16px;
+    }
+    .sidebar-nav .nav-item a {
+      color: #21e6c1;
+      text-decoration: none;
+    }
+    .sidebar-nav .nav-item a:hover {
+      color: #2eca6a;
+    }
+    .content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 80px 20px;
+    }
+    .main-chart {
+      background-color: #1f4068;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .chart-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #21e6c1;
+      margin-bottom: 10px;
+    }
+    .charts-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    .small-chart {
+      background-color: #1f4068;
+      border-radius: 8px;
+      padding: 20px;
+      flex: 1;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .btn {
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background-color: gray;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s;
+      width: 200px;
+    }
+    .btn-on {
+      background-color: #2eca6a;
+    }
+    .btn-label {
+      display: block;
+      font-size: 14px;
+      margin-top: 5px;
+      text-align: center;
+      color: #fff;
+    }
+    .chart-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff; /* Change to white */
+      margin-bottom: 10px;
+    }
+    .button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.device-control {
+    background-color: #1f4068;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 120px;
+    border: 2px solid #21e6c1; /* Frame color */
+}
+
+.device-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.device-label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.btn-toggle {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: gray;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-toggle.btn-on {
+    background-color: #2eca6a;
+}
+/* Container styling */
+.button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.device-control {
+    background-color: #1f4068;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 120px;
+    border: 2px solid #21e6c1;
+}
+
+.device-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.device-label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+/* Toggle switch styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2eca6a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+    /* Reset some default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #1a1a2e;
+      color: #ffffff;
+    }
+
+    /* Header */
+    .header {
+      background-color: #162447;
+      color: #21e6c1;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .header .logo {
+      color: #21e6c1;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #1f4068;
+      padding-top: 60px;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav {
+      list-style-type: none;
+    }
+
+    .sidebar-nav .nav-item {
+      margin-bottom: 1em;
+    }
+
+    .sidebar-nav .nav-link {
+      display: flex;
+      align-items: center;
+      color: #21e6c1;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .sidebar-nav .nav-link:hover {
+      background-color: #2eca6a;
+      color: #ffffff;
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 240px;
+      padding: 80px 20px;
+    }
+
+    .pagetitle {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      gap: 0.5em;
+    }
+
+    .breadcrumb a {
+      color: #21e6c1;
+      text-decoration: none;
+    }
+
+    /* Card */
+    .card {
+      background-color: #1f4068;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #21e6c1;
+      margin-bottom: 10px;
+    }
+
+    /* Table */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table thead {
+      background-color: #2eca6a;
+      color: #ffffff;
+    }
+
+    .table th,
+    .table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    .table th {
+      cursor: pointer;
+    }
+
+    .table tbody tr:hover {
+      background-color: #1f2d4d;
+    }
+
+    /* Input group */
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .input-group select,
+    .input-group input {
+      background-color: #162447;
+      color: #ffffff;
+      border: 1px solid #2eca6a;
+      padding: 8px;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .input-group input::placeholder {
+      color: #21e6c1;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: flex-end;
+      list-style: none;
+      padding: 0;
+      gap: 5px;
+    }
+
+    .pagination .page-item {
+      background-color: #162447;
+      color: #21e6c1;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .pagination .page-item.active {
+      background-color: #2eca6a;
+      color: #ffffff;
+    }
+
+    .pagination .page-item:hover {
+      background-color: #2eca6a;
+      color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    Smart Home Dashboard
+  </header>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <ul class="sidebar-nav">
+      <li class="nav-item"><a href="/">Dashboard</a></li>
+      <li class="nav-item"><a href="action_history">Action History</a></li>
+      <li class="nav-item"><a href="sensor_data">Sensor Data</a></li>
+      <li class="nav-item"><a href="users_profile">Profile</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="main-chart">
+      <div class="chart-title">Combined Data (Temperature, Humidity, Light Intensity)</div>
+      <div id="combined-chart"></div>
+    </div>
+
+    <div class="charts-row">
+      <div class="small-chart">
+        <div class="chart-title">Temperature</div>
+        <div id="temperature-chart"></div>
+      </div>
+      <div class="small-chart">
+        <div class="chart-title">Humidity</div>
+        <div id="humidity-chart"></div>
+      </div>
+      <div class="small-chart">
+        <div class="chart-title">Light Intensity</div>
+        <div id="light-chart"></div>
+      </div>
+    </div>
+
+    <!-- Control Buttons Section -->
+<!-- Control Buttons Section -->
+<div class="button-container">
+  <div class="device-control">
+      <img src="/static/assets/img/den.png" alt="Light Bulb Icon" class="device-icon">
+      <span class="device-label">Light Bulb</span>
+      <label class="switch">
+          <input type="checkbox" id="toggle-device1" onclick="toggleDevice(1)">
+          <span class="slider"></span>
+      </label>
+  </div>
+  <div class="device-control">
+      <img src="/static/assets/img/fan.png" alt="Fan Icon" class="device-icon">
+      <span class="device-label">Fan</span>
+      <label class="switch">
+          <input type="checkbox" id="toggle-device2" onclick="toggleDevice(2)">
+          <span class="slider"></span>
+      </label>
+  </div>
+  <div class="device-control">
+      <img src="/static/assets/img/dieuhoa.jpg" alt="Air Conditioner Icon" class="device-icon">
+      <span class="device-label">Air Conditioner</span>
+      <label class="switch">
+          <input type="checkbox" id="toggle-device3" onclick="toggleDevice(3)">
+          <span class="slider"></span>
+      </label>
+  </div>
+  <div class="device-control">
+      <img src="/static/assets/img/tatca.jpg" alt="All Icon" class="device-icon">
+      <span class="device-label">All</span>
+      <label class="switch">
+          <input type="checkbox" id="toggle-device4" onclick="toggleDevice(4)">
+          <span class="slider"></span>
+      </label>
+  </div>
+</div>
+
+
+  
+
+  <!-- Vendor JS Files -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+  <!-- Script to Initialize Charts and Handle Real-Time Data -->
+  <script>
+    let temperatureData = [];
+    let humidityData = [];
+    let lightData = [];
+    const maxDataPoints = 10;
+
+    // Initialize combined chart with white-colored labels and tooltips
+    const combinedChart = new ApexCharts(document.querySelector("#combined-chart"), {
+  chart: { type: 'area', height: 300, toolbar: { show: false }, background: '#1f4068' },
+  series: [
+    { name: 'Temperature', data: temperatureData },
+    { name: 'Humidity', data: humidityData },
+    { name: 'Light Intensity', data: lightData }
+  ],
+  colors: ['#21e6c1', '#2eca6a', '#ffc107'],
+  xaxis: { 
+    type: 'category',
+    labels: { 
+      style: { 
+        colors: '#ffffff' // Make x-axis labels white
+      }
+    }
+  },
+  yaxis: { 
+    decimalsInFloat: 1,
+    labels: { 
+      style: { 
+        colors: '#ffffff' // Make y-axis labels white
+      }
+    }
+  },
+  legend: { 
+    labels: { 
+      colors: '#ffffff' // Make legend text white
+    }
+  },
+  tooltip: { 
+    theme: 'dark' // Set tooltip theme to dark for white text
+  },
+  fill: { 
+    type: 'gradient', 
+    gradient: { 
+      shade: 'dark', 
+      type: 'vertical', 
+      opacityFrom: 0.7, 
+      opacityTo: 0.3 
+    } 
+  },
+  stroke: { 
+    width: 2, 
+    curve: 'smooth' 
+  }
+});
+combinedChart.render();
+
+    function createSmallChart(elementId, data, color) {
+      return new ApexCharts(document.querySelector(elementId), {
+        chart: { type: 'area', height: 150, toolbar: { show: false }, background: '#1f4068' },
+        series: [{ name: 'Data', data }],
+        colors: [color],
+        xaxis: { 
+          type: 'category',
+          labels: { style: { colors: '#ffffff' } }
+        },
+        yaxis: {
+          labels: { style: { colors: '#ffffff' } }
+        },
+        fill: { type: 'gradient', gradient: { shade: 'dark', opacityFrom: 0.7, opacityTo: 0.3 } },
+        stroke: { width: 2, curve: 'smooth' },
+        tooltip: { theme: 'dark' }
+      });
+    }
+
+    const temperatureChart = createSmallChart("#temperature-chart", temperatureData, '#21e6c1');
+    const humidityChart = createSmallChart("#humidity-chart", humidityData, '#2eca6a');
+    const lightChart = createSmallChart("#light-chart", lightData, '#ffc107');
+
+    temperatureChart.render();
+    humidityChart.render();
+    lightChart.render();
+
+    // WebSocket connection
+    const socket = io.connect('http://localhost:5000');
+
+    socket.on('sensor_data', function (data) {
+      try {
+        data = JSON.parse(data.message.replace(/'/g, '"'));
+      } catch (error) {
+        console.error('Failed to parse sensor data:', error);
+        return;
+      }
+
+      updateDataArray(temperatureData, data.temperature);
+      updateDataArray(humidityData, data.humidity);
+      updateDataArray(lightData, data.light_level);
+
+      combinedChart.updateSeries([
+        { name: 'Temperature', data: temperatureData },
+        { name: 'Humidity', data: humidityData },
+        { name: 'Light Intensity', data: lightData }
+      ]);
+
+      temperatureChart.updateSeries([{ data: temperatureData.map(point => point.y) }]);
+      humidityChart.updateSeries([{ data: humidityData.map(point => point.y) }]);
+      lightChart.updateSeries([{ data: lightData.map(point => point.y) }]);
+    });
+
+    function updateDataArray(array, newValue) {
+      const timestamp = new Date().toLocaleTimeString();
+      array.push({ x: timestamp, y: newValue });
+      if (array.length > maxDataPoints) array.shift();
+    }
+
+  </script>
+
+  <script>
+async function toggleDevice(deviceNumber) {
+    const toggleSwitch = document.getElementById(`toggle-device${deviceNumber}`);
+    const isOn = toggleSwitch.checked; // Get the state of the checkbox
+    const currentState = isOn ? "ON" : "OFF";
+    let topic;
+
+    // Set the appropriate topic based on device number
+    switch (deviceNumber) {
+        case 1:
+            topic = 'home/light';
+            break;
+        case 2:
+            topic = 'home/fan';
+            break;
+        case 3:
+            topic = 'home/air';
+            break;
+        case 4:
+            topic = 'home/all';
+            break;
+        default:
+            console.error("Invalid device number");
+            return;
+    }
+
+    // If the "All" switch is toggled, update all switches
+    if (deviceNumber === 4) {
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById(`toggle-device${i}`).checked = isOn; // Set the checked state for other devices
+            updateButtonUI(i, currentState); // Update UI for each button
+        }
+    } else {
+        updateButtonUI(deviceNumber, currentState);
+    }
+
+    // Send the command to the API
+    await sendApiRequest(topic, currentState);
+
+    // Store the state in localStorage
+    localStorage.setItem(`device${deviceNumber}`, currentState);
+}
+
+    
+
+    async function sendApiRequest(topic, cmd) {
+      try {
+        const response = await fetch('/api/v1/device/publish', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cmd: cmd,
+            topic: topic
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+        } else {
+          console.error('Failed to send the command.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Hàm cập nhật giao diện của nút
+    function updateButtonUI(deviceNumber, currentState) {
+      const button = document.getElementById(`toggle-device${deviceNumber}`);
+      if (currentState === "ON") {
+        button.innerHTML = "ON";
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-success');
+      } else {
+        button.innerHTML = "OFF";
+        button.classList.remove('btn-success');
+        button.classList.add('btn-primary');
+      }
+    }
+    function restoreDeviceStates() {
+      for (let i = 1; i <= 4; i++) {
+        const savedState = localStorage.getItem(`device${i}`) || "OFF";
+        updateButtonUI(i, savedState);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", restoreDeviceStates);
+    
+    </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Lấy dữ liệu từ localStorage nếu còn hợp lệ
+      var humidityData = JSON.parse(localStorage.getItem('humidityData')) || [];
+      var lightData = JSON.parse(localStorage.getItem('lightData')) || [];
+      var temperatureData = JSON.parse(localStorage.getItem('temperatureData')) || [];
+
+      // Cấu hình biểu đồ cho Light Intensity, Humidity, và Temperature
+      const now = new Date().getTime();
+      const tenMinutesAgo = now - (10 * 60 * 1000);
+
+      var chart = new ApexCharts(document.querySelector("#reportsChart"), {
+        series: [{
+          name: 'Light Intensity',
+          data: lightData  // Dữ liệu từ localStorage hoặc mảng rỗng
+        }, {
+          name: 'Humidity',
+          data: humidityData  // Dữ liệu từ localStorage hoặc mảng rỗng
+        }, {
+          name: 'Temperature',
+          data: temperatureData  // Dữ liệu từ localStorage hoặc mảng rỗng
+        }],
+        chart: {
+          height: 350,
+          type: 'area',
+          toolbar: {
+            show: true,  // Hiển thị thanh công cụ cho chức năng zoom/pan
+            tools: {
+              download: true,  // Cho phép người dùng tải biểu đồ
+              selection: true, // Cho phép chọn vùng cần zoom
+              zoom: true,      // Bật chức năng zoom
+              zoomin: true,    // Nút để phóng to
+              zoomout: true,   // Nút để thu nhỏ
+              pan: true,       // Kích hoạt tính năng kéo (pan)
+              reset: true      // Nút để đặt lại biểu đồ
+            },
+            autoSelected: 'zoom'  // Tự động chọn chức năng zoom
+          },
+
+          colors: ['#4154f1', '#2eca6a', '#ff771d'],
+          fill: {
+            type: "gradient",
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.3,
+              opacityTo: 0.4,
+              stops: [0, 90, 100]
+            }
+          },
+
+          stroke: {
+            curve: 'smooth',
+            width: 2
+          },
+          xaxis: {
+            type: 'datetime',
+            min: tenMinutesAgo,  // Thời gian bắt đầu trong ngày
+            max: now,    // Thời gian kết thúc trong ngày
+            labels: {
+              atetimeUTC: false,
+              format: 'HH:mm:ss',  // Định dạng giờ, phút, giây trên trục x
+            },
+            tooltip: {
+              x: {
+                format: 'HH:mm:ss'
+              }
+            }
+          },
+          yaxis: {
+            decimalsInFloat: 1,  // Định dạng số liệu với 1 chữ số thập phân
+            min: 0,  // Giá trị nhỏ nhất của trục y
+            max: 120  // Giá trị lớn nhất của trục y
+          },
+          tooltip: {
+            x: {
+              format: 'HH:mm:ss'  // Định dạng thời gian trên tooltip
+            }
+          },
+        }
+      });
+
+      chart.render();
+      var lightData = [];
+      var humidityData = [];
+      var temperatureData = [];
+      function updateDataArray(dataArray, newValue) {
+        dataArray.push(newValue);
+        if (dataArray.length > 10) {
+          dataArray.shift(); // Xóa phần tử đầu tiên nếu quá 10 phần tử
+        }
+        return dataArray;
+      }
+      // Kết nối WebSocket với Flask server (sử dụng socketio)
+      var socket = io.connect('http://localhost:5000', {
+  transports: ['polling', 'websocket']
+  });
+
+      socket.on('sensor_data', function (data) {
+        // console.log('Updating series with: ', {
+        //   light: data.light,
+        //   humidity: data.humidity,
+        //   temp: data.temp,
+        //   timestamp: data.timestamp
+        // });
+
+        try {
+          // Replace single quotes with double quotes to make it valid JSON
+          data = JSON.parse(data.message.replace(/'/g, '"'));
+        } catch (error) {
+          console.error('Failed to parse sensor data:', error);
+          return;  // Exit if parsing fails
+        }
+        console.log(data)
+        // Lấy d từ dữ liệu và chuyển thành định dạng datetime
+        var date = new Date();
+        var vnTime = new Date(date.getTime() + (7 * 60 * 60 * 1000)); // Cộng thêm 7 giờ
+
+        // Định dạng giờ, phút và giây
+        var hours = String(vnTime.getHours()).padStart(2, '0');
+        var minutes = String(vnTime.getMinutes()).padStart(2, '0');
+        var seconds = String(vnTime.getSeconds()).padStart(2, '0');
+
+        // Tạo chuỗi định dạng HH:mm:ss
+        var timestamp = `${hours}:${minutes}:${seconds}`;
+
+        // Cập nhật mảng dữ liệu
+        lightData = updateDataArray(lightData, { x: timestamp, y: data.light_level });
+        humidityData = updateDataArray(humidityData, { x: timestamp, y: data.humidity });
+        temperatureData = updateDataArray(temperatureData, { x: timestamp, y: data.temperature });
+
+        // Giới hạn mảng dữ liệu chỉ chứa tối đa các điểm trong 5 phút (300 giây)
+        if (lightData.length > 300) lightData.shift();  // Xóa điểm đầu nếu quá giới hạn
+        if (humidityData.length > 300) humidityData.shift();
+        if (temperatureData.length > 300) temperatureData.shift();
+
+        // Cập nhật dữ liệu mới vào biểu đồ
+        chart.updateSeries([{
+          name: 'Light Intensity',
+          data: lightData
+        }, {
+          name: 'Humidity',
+          data: humidityData
+        }, {
+          name: 'Temperature',
+          data: temperatureData
+        }]);
+
+        const now = new Date();
+        localStorage.setItem('lastUpdate', now);
+        localStorage.setItem('lightData', JSON.stringify(lightData));
+        localStorage.setItem('humidityData', JSON.stringify(humidityData));
+        localStorage.setItem('temperatureData', JSON.stringify(temperatureData));
+        // Cập nhật các biểu đồ đơn lẻ
+        temperatureChart.updateSeries([data.temperature]);
+        humidityChart.updateSeries([data.humidity]);
+        lightChart.updateSeries([data.light_level]);
+        const lastUpdate = localStorage.getItem('lastUpdate');
+        if (lastUpdate) {
+          const oneDay = 24 * 60 * 60 * 1000; // 1 ngày tính bằng milliseconds
+          const now = new Date();
+          if (now - new Date(lastUpdate) > oneDay) {
+            localStorage.removeItem('lightData');
+            localStorage.removeItem('humidityData');
+            localStorage.removeItem('temperatureData');
+            localStorage.removeItem('lastUpdate');
+          }
+        }
+
+      });
+
+    });
+  </script>
+</body>
+</html>

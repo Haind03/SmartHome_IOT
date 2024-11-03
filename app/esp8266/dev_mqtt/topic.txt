@@ -1,0 +1,9 @@
+mosquitto_pub -h 170.20.10.3 -u Haind -P B21DCAT004 -t home/fan  -m OFF -p 1993
+
+topic: hom/fan, home/aircondition, home/light
+message: ON, OFF
+
+mosquitto_pub -h 172.20.10.4 -u Haind -P B21DCAT004 -t home/D  -m ON -p 1993
+
+mpremote connect COM3 fs cp esp8266.py :
+mpremote connect COM3 run esp8266.py

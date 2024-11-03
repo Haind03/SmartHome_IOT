@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Users / Profile - Smart Home</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+  <header class="header">Smart Home Dashboard</header>
+
+  <aside class="sidebar">
+    <ul>
+      <li><a href="/">Dashboard</a></li>
+      <li><a href="action_history">Action History</a></li>
+      <li><a href="sensor_data">Sensor Data</a></li>
+      <li><a href="users_profile">Profile</a></li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <div class="pagetitle">
+      <h1>Data Tables</h1>
+
+    </div>
+
+    <div class="input-group">
+      <select id="fieldSelect" class="form-select">
+        <option value="id">ID</option>
+        <option value="humidity">Humidity</option>
+        <option value="temp">Temperature</option>
+        <option value="light">Light</option>
+        <option value="cb">CB</option>
+        <option value="timestamp">Time</option>
+      </select>
+      <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="fetchActionHistory()">
+      <select id="sortOrderSelect" class="form-select" onchange="changeSortOrder()">
+        <option value="desc">Descending (DESC)</option>
+        <option value="asc">Ascending (ASC)</option>
+      </select>
+      <label for="rowsPerPageSelect">Rows per page:</label>
+      <select id="rowsPerPageSelect" class="form-select" onchange="changeRowsPerPage()">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+
+    <section class="section">
+      <div class="card">
+        <h5>Action-History</h5>
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">ID</th>
+              <th onclick="sortTable(1)">Humidity (%)</th>
+              <th onclick="sortTable(2)">Temperature (°C)</th>
+              <th onclick="sortTable(3)">Light (lux)</th>
+              <th onclick="sortTable(4)">CB</th>
+              <th onclick="sortTable(5)">Time</th>
+            </tr>
+          </thead>
+          <tbody id="action-history-table-body">
+            <!-- Data will be loaded here dynamically -->
+          </tbody>
+        </table>
+
+        <div class="pagination" id="pagination">
+          <!-- Pagination will be loaded here dynamically -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let currentPage = 1;
+    let limit = 10;
+    let totalPages = 0;
+    let sortOrder = 'desc';
+
+    function changeSortOrder() {
+      sortOrder = document.getElementById('sortOrderSelect').value;
+      fetchActionHistory();
+    }
+
+    async function fetchActionHistory() {
+      const searchQuery = document.getElementById('searchInput').value;
+      const fieldSelect = document.getElementById('fieldSelect').value;
+
+      try {
+        const response = await fetch(`/api/v1/sensor/data?page=${currentPage}&limit=${limit}&search=${searchQuery}&sort=${sortOrder}&field=${fieldSelect}`);
+        const result = await response.json();
+
+        const tableBody = document.getElementById('action-history-table-body');
+        tableBody.innerHTML = '';
+
+        result.data.forEach(log => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${log.id}</td>
+            <td>${log.humidity}</td>
+            <td>${log.temp}</td>
+            <td>${log.light}</td>
+            <td>${log.cb}</td>
+            <td>${log.timestamp}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+        totalPages = Math.ceil(result.total_count / limit);
+        renderPagination();
+
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+      }
+    }
+
+    function renderPagination() {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      const prevLi = document.createElement('li');
+      prevLi.classList.add('page-item');
+      prevLi.classList.toggle('disabled', currentPage === 1);
+      prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>`;
+      pagination.appendChild(prevLi);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const pageLi = document.createElement('li');
+        pageLi.classList.add('page-item', i === currentPage ? 'active' : '');
+        pageLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+        pagination.appendChild(pageLi);
+      }
+
+      const nextLi = document.createElement('li');
+      nextLi.classList.add('page-item');
+      nextLi.classList.toggle('disabled', currentPage === totalPages);
+      nextLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a>`;
+      pagination.appendChild(nextLi);
+    }
+
+    function changePage(page) {
+      if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        fetchActionHistory();
+      }
+    }
+
+    function changeRowsPerPage() {
+      limit = parseInt(document.getElementById('rowsPerPageSelect').value);
+      currentPage = 1;
+      fetchActionHistory();
+    }
+
+    window.onload = fetchActionHistory;
+
+    function sortTable(columnIndex) {
+      const table = document.querySelector(".datatable tbody");
+      const rows = Array.from(table.rows);
+      const isAscending = table.getAttribute('data-sort') === 'asc';
+      table.setAttribute('data-sort', isAscending ? 'desc' : 'asc');
+
+      rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].textContent.trim();
+        const cellB = rowB.cells[columnIndex].textContent.trim();
+        return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+      });
+
+      rows.forEach(row => table.appendChild(row));
+    }
+  </script>
+</body>
+
+</html>
