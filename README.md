@@ -1,146 +1,6 @@
 # Smart Home
 
-## I. Mô tả hệ thống
-
-### Mục Đích
-Hệ thống sử dụng các cảm biến để thông báo nhiệt độ, độ ẩm và ánh sáng cho người dùng thông qua một trang web có thể truy cập trong mạng LAN. Trang web cung cấp các thông tin về nhiệt độ, độ ẩm và ánh sáng với giao diện dashboard dễ nhìn, cho phép người dùng xem trực tiếp các thông tin này theo thời gian thực.
-
-### Các Thiết Bị Sử Dụng Trong Hệ Thống
-
-#### Phần Cứng
-- 1 kit ESP8266 NodeMCU 0.9
-- 1 cảm biến nhiệt độ và độ ẩm DHT22
-- 1 cảm biến ánh sáng
-- 3 đèn LED
-- 1 bảng mạch
-- Các loại dây dẫn đi kèm
-
-#### Phần Mềm
-- PlatformIO trên VSCode chạy trên nền Arduino
-- Mosquitto server trên Windows
-- Framework Flask + Flask-SocketIO (Backend)
-- Framework ReactJS (Client)
-
-
-## II. MQTT
-
-Cài đặt `mqtt` set username và password cho người dùng.
-
-```
-C:\Program Files\mosquitto>mosquitto_passwd.exe -c "D:\PTIT_Project\IOTapp\mosquitto\passwdfile.txt" HaiND
-Password:
-Reenter password:
-```
-
-Setting port và sử dụng passwordfile.txt trong file config mosquitto.
-
-```
-listener 1993 0.0.0.0
-password_file D:\PTIT_Project\IOTapp\mosquitto\passwdfile.txt
-allow_anonymous false
-```
-
-Kết quả sau khi sửa port và sử dụng với conf mới.
-
-```
-C:\Program Files\mosquitto>mosquitto.exe -c mosquitto.conf -v
-1730648360: mosquitto version 2.0.20 starting
-1730648360: Config loaded from mosquitto.conf.
-1730648360: Opening ipv4 listen socket on port 1993.
-1730648360: mosquitto version 2.0.20 running
-```
-
-## II. Xây dựng flash và esptool.
-
-### Ardruino and device.
-Cài đặt esptools trên `https://micropython.org/download/ESP8266_GENERIC/`
-
-```
-pip install esptool
-```
-Sử dụng json này cho vào url để cài esp8266 trên arduno và cài đặt driver cho port arduino ide.
-```json
-https://arduino.esp8266.com/stable/package_esp8266com_index.json
-```
-
-```driver
-https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads
-```
-
-Cài arduino và xem cổng trên máy kết nối, check cổng kết nối trên device. Thường sẽ là COM3.
-
-![alt text](https://raw.githubusercontent.com/Haind03/IOT/main/BaoCao/image.png)
-
-### Flash esp8266.
-```
-esptool --port COM3 erase_flash
-esptool --port COM3 --baud 115200 write_flash --flash_size=detect 0x0 ESP8266_GENERIC-20240602-v1.23.0.bin
-```
-
-Sau khi import file vào esp8266 tiếp tục cài mpremote
-```
-pip install mpremote
-```
-
-Tiếp tục thêm file vào esp8266
-
-```
-mpremote connect COM3 fs cp simple.py :
-mpremote connect COM3 fs cp esp8266.py :
-mpremote connect COM3 run esp8266.py
-```
-
-
-Kết Quả:
-```
-PS D:\PTIT_Project\IOTapp\app\esp8266\dev_mqtt> esptool --port COM3 erase_flash
-esptool.py v4.8.1
-Serial port COM3
-Connecting....
-Detecting chip type... Unsupported detection protocol, switching and trying again...
-Connecting....
-Detecting chip type... ESP8266
-Chip is ESP8266EX
-Features: WiFi
-Crystal is 26MHz
-MAC: ec:64:c9:d3:dd:51
-Uploading stub...
-Running stub...
-Stub running...
-Erasing flash (this may take a while)...
-Chip erase completed successfully in 7.5s
-Hard resetting via RTS pin...
-PS D:\PTIT_Project\IOTapp\app\esp8266\dev_mqtt> esptool --port COM3 --baud 115200 write_flash --flash_size=detect 0x0 ESP8266_GENERIC-20240602-v1.23.0.bin
-esptool.py v4.8.1
-Serial port COM3
-Connecting....
-Detecting chip type... Unsupported detection protocol, switching and trying again...
-Connecting....
-Detecting chip type... ESP8266
-Chip is ESP8266EX
-Features: WiFi
-Crystal is 26MHz
-MAC: ec:64:c9:d3:dd:51
-Uploading stub...
-Running stub...
-Stub running...
-Configuring flash size...
-Auto-detected Flash size: 4MB
-Flash will be erased from 0x00000000 to 0x0009afff...
-Flash params set to 0x0040
-Compressed 633048 bytes to 423611...
-Wrote 633048 bytes (423611 compressed) at 0x00000000 in 37.8 seconds (effective 134.0 kbit/s)...
-Hash of data verified.
-
-Leaving...
-Hard resetting via RTS pin...
-```
-
-- Sau khi nạp xong test thử và đã nhận được thông tin từ firmware.
-
-    ![alt text](https://raw.githubusercontent.com/Haind03/IOT/main/BaoCao/image-1.png)
-
-## IV. Giao diện người dùng.
+## I. Giao diện người dùng.
 
 ### 1. Giao diện dashboard
 
@@ -158,9 +18,7 @@ Hard resetting via RTS pin...
 
 ![alt text](https://raw.githubusercontent.com/Haind03/IOT/main/BaoCao/image-6.png)
 
-## V. Xây dựng mô hình hệ thống.
-
-### Sơ đồ Giao tiếp
+# II. Sơ đồ Giao tiếp
 
 1. **Thiết bị -> MQTT Broker -> Flask MQTT Client:** 
    - Thiết bị gửi dữ liệu lên MQTT broker.
@@ -242,10 +100,7 @@ CREATE TABLE `DeviceHistory` (
 );
 ```
 
-## VI. Mô tả sơ đồ luồng hoạt động.
-
-
-## VII. API document.
+## III. API document.
 
 Nội dung chi tiết bên trong poshman.
 `https://documenter.getpostman.com/view/39489332/2sAY4ye1DQ
