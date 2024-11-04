@@ -4,6 +4,7 @@ from models.datarealtime_model import get_db, DataRealTime
 import time
 import json
 import random
+import data_controller
 
 def socket_server(socketio):
     host = '0.0.0.0'
@@ -39,10 +40,11 @@ def socket_server(socketio):
                 except Exception as e:
                     print(f"Error parsing data: {e}")
                     continue  # Bỏ qua vòng lặp hiện tại nếu dữ liệu không hợp lệ
-
+                cb_data=random.randint(0, 100)
+                # data_controller.save_sensor_data(temp=parsed_data['temperature'], humidity=parsed_data['humidity'], light=parsed_data['light_level'], cb=cb_data)
                 # Lưu dữ liệu vào database
                 db = next(get_db())
-                cb_data=random.randint(0, 100)
+
                 new_entry = DataRealTime(
                     temp=parsed_data['temperature'],
                     humidity=parsed_data['humidity'],
@@ -50,9 +52,10 @@ def socket_server(socketio):
                     cb=cb_data,
                     timestamp=datetime.utcnow()
                 )
+
                 db.add(new_entry)
                 db.commit()
-                # time.sleep(3)
+                time.sleep(3)
 
                 # Phát dữ liệu qua WebSocket tới giao diện
                 if socketio:

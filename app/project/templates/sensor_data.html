@@ -4,45 +4,48 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Users / Profile - Smart Home</title>
+  <title>Smart Home Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 
 <body>
 
-  <header class="header">Smart Home Dashboard</header>
+  <!-- Header -->
+  <header class="header">
+    <a href="/" class="logo">Smart Home Dashboard</a>
+  </header>
 
+  <!-- Sidebar -->
   <aside class="sidebar">
-    <ul>
-      <li><a href="/">Dashboard</a></li>
-      <li><a href="action_history">Action History</a></li>
-      <li><a href="sensor_data">Sensor Data</a></li>
-      <li><a href="users_profile">Profile</a></li>
+    <ul class="sidebar-nav">
+      <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" href="action_history">Action History</a></li>
+      <li class="nav-item"><a class="nav-link" href="sensor_data">Sensor Data</a></li>
+      <li class="nav-item"><a class="nav-link" href="users_profile">Profile</a></li>
     </ul>
   </aside>
 
+  <!-- Main Content -->
   <main class="main">
-    <div class="pagetitle">
-      <h1>Data Tables</h1>
+    <div class="pagetitle">Data Tables</div>
 
-    </div>
-
+    <!-- Search and Filter -->
     <div class="input-group">
-      <select id="fieldSelect" class="form-select">
+      <select id="fieldSelect">
         <option value="id">ID</option>
-        <option value="humidity">Humidity</option>
-        <option value="temp">Temperature</option>
-        <option value="light">Light</option>
-        <option value="cb">CB</option>
+        <option value="device_name">Device</option>
+        <option value="status">Status</option>
         <option value="timestamp">Time</option>
       </select>
-      <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="fetchActionHistory()">
-      <select id="sortOrderSelect" class="form-select" onchange="changeSortOrder()">
-        <option value="desc">Descending (DESC)</option>
-        <option value="asc">Ascending (ASC)</option>
+      <input type="text" id="searchInput" placeholder="Search" onkeyup="fetchActionHistory()">
+      <select id="sortOrderSelect" onchange="changeSortOrder()">
+        <option value="desc">Descending</option>
+        <option value="asc">Ascending</option>
       </select>
-      <label for="rowsPerPageSelect">Rows per page:</label>
-      <select id="rowsPerPageSelect" class="form-select" onchange="changeRowsPerPage()">
+      <select id="rowsPerPageSelect" onchange="changeRowsPerPage()">
         <option value="5">5</option>
         <option value="10" selected>10</option>
         <option value="25">25</option>
@@ -50,32 +53,36 @@
       </select>
     </div>
 
-    <section class="section">
-      <div class="card">
-        <h5>Action-History</h5>
-        <table class="table datatable">
-          <thead>
-            <tr>
+
+    <!-- Data Table Section -->
+    <div class="card">
+      <h5 class="card-title">Action History</h5>
+      <table class="table">
+        <thead>
+          <tr>
               <th onclick="sortTable(0)">ID</th>
               <th onclick="sortTable(1)">Humidity (%)</th>
               <th onclick="sortTable(2)">Temperature (°C)</th>
               <th onclick="sortTable(3)">Light (lux)</th>
-              <th onclick="sortTable(4)">CB</th>
-              <th onclick="sortTable(5)">Time</th>
+              <th onclick="sortTable(4)">Time</th>
             </tr>
           </thead>
           <tbody id="action-history-table-body">
-            <!-- Data will be loaded here dynamically -->
+            <!-- Data will be populated by API -->
           </tbody>
         </table>
-
-        <div class="pagination" id="pagination">
-          <!-- Pagination will be loaded here dynamically -->
-        </div>
       </div>
-    </section>
 
+    <!-- Pagination -->
+    <div>
+      <ul class="pagination" id="pagination">
+        <!-- Pagination links will be dynamically generated -->
+      </ul>
+    </div>
   </main>
+
+  <!-- JS and Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     let currentPage = 1;
@@ -84,7 +91,8 @@
     let sortOrder = 'desc';
 
     function changeSortOrder() {
-      sortOrder = document.getElementById('sortOrderSelect').value;
+      const sortOrderSelect = document.getElementById('sortOrderSelect');
+      sortOrder = sortOrderSelect.value;
       fetchActionHistory();
     }
 
@@ -94,29 +102,36 @@
 
       try {
         const response = await fetch(`/api/v1/sensor/data?page=${currentPage}&limit=${limit}&search=${searchQuery}&sort=${sortOrder}&field=${fieldSelect}`);
+        if (!response.ok) throw new Error("Network response was not ok");
+        
         const result = await response.json();
+        console.log(result); // Debug: Inspect API response
 
         const tableBody = document.getElementById('action-history-table-body');
         tableBody.innerHTML = '';
 
-        result.data.forEach(log => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${log.id}</td>
-            <td>${log.humidity}</td>
-            <td>${log.temp}</td>
-            <td>${log.light}</td>
-            <td>${log.cb}</td>
-            <td>${log.timestamp}</td>
-          `;
-          tableBody.appendChild(row);
-        });
+        if (Array.isArray(result.data) && result.data.length > 0) {
+          result.data.forEach(log => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${log.id}</td>
+              <td>${log.humidity}</td>
+              <td>${log.temp}</td>
+              <td>${log.light}</td>
+              <td>${log.timestamp}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } else {
+          tableBody.innerHTML = `<tr><td colspan="5" class="text-center">No data available</td></tr>`;
+        }
 
         totalPages = Math.ceil(result.total_count / limit);
+        console.log("Total pages:", totalPages); // Debug: Check pagination
         renderPagination();
 
       } catch (error) {
-        console.error('Error fetching data from API:', error);
+        console.error('Error fetching data:', error);
       }
     }
 
@@ -124,17 +139,41 @@
       const pagination = document.getElementById('pagination');
       pagination.innerHTML = '';
 
+      const maxPagesToShow = 5;
+      const halfMaxPages = Math.floor(maxPagesToShow / 2);
+
       const prevLi = document.createElement('li');
       prevLi.classList.add('page-item');
       prevLi.classList.toggle('disabled', currentPage === 1);
       prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>`;
       pagination.appendChild(prevLi);
 
-      for (let i = 1; i <= totalPages; i++) {
-        const pageLi = document.createElement('li');
-        pageLi.classList.add('page-item', i === currentPage ? 'active' : '');
-        pageLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
-        pagination.appendChild(pageLi);
+      let startPage = Math.max(1, currentPage - halfMaxPages);
+      let endPage = Math.min(totalPages, currentPage + halfMaxPages);
+
+      if (currentPage <= halfMaxPages) {
+        endPage = Math.min(totalPages, maxPagesToShow);
+      }
+      if (currentPage > totalPages - halfMaxPages) {
+        startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+      }
+
+      if (startPage > 1) {
+        pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(1)">1</a></li>`;
+        if (startPage > 2) {
+          pagination.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pagination.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" onclick="changePage(${i})">${i}</a></li>`;
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pagination.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+        pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a></li>`;
       }
 
       const nextLi = document.createElement('li');
@@ -152,7 +191,8 @@
     }
 
     function changeRowsPerPage() {
-      limit = parseInt(document.getElementById('rowsPerPageSelect').value);
+      const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
+      limit = parseInt(rowsPerPageSelect.value);
       currentPage = 1;
       fetchActionHistory();
     }
@@ -162,7 +202,7 @@
     function sortTable(columnIndex) {
       const table = document.querySelector(".datatable tbody");
       const rows = Array.from(table.rows);
-      const isAscending = table.getAttribute('data-sort') === 'asc';
+      let isAscending = table.getAttribute('data-sort') === 'asc';
       table.setAttribute('data-sort', isAscending ? 'desc' : 'asc');
 
       rows.sort((rowA, rowB) => {
@@ -174,6 +214,6 @@
       rows.forEach(row => table.appendChild(row));
     }
   </script>
-</body>
 
+</body>
 </html>

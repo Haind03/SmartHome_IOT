@@ -8,7 +8,7 @@ from flask_cors import CORS
 from controllers.device_controller import publish_device
 from controllers.device_logs_controller import get_device_logs
 from controllers.sensor_data_controller import get_sensor_data
-
+from controllers.data_controller import save_sensor_data
 # Initialize Flask app
 app = Flask(__name__)
 
@@ -69,7 +69,11 @@ def handle_mqtt_message(client, userdata, message):
     payload = message.payload.decode()
     print(f"Received MQTT message: {payload} on topic: {message.topic}")
     # Emit the MQTT message to all clients via Socket.IO
+    tmp = eval(payload)
+    save_sensor_data(tmp["temperature"],tmp["humidity"],tmp["light_level"], "0")
     socketio.emit('sensor_data', {'topic': message.topic, 'message': payload})
+    # print(payload)
+
 
 # Run the Flask app with Socket.IO and MQTT support using Eventlet
 if __name__ == '__main__':

@@ -118,6 +118,7 @@ def on_message(topic, msg):
     elif topic == b'home/error':
         print('Error detected, blinking LED...')
         blink_led(external_led)  # Blink external LED 6 times
+    
 
 # Publish sensor data
 def publish_data(temperature, humidity, light_level):
