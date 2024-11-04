@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from models.datarealtime_model import DataRealTime
 from sqlalchemy import asc, desc
 from database import get_db
+import traceback
 
 def get_sensor_data():
     # Connect to the database
@@ -24,13 +25,13 @@ def get_sensor_data():
             if field == 'id' and search_query.isdigit():
                 query = query.filter(DataRealTime.id == int(search_query))
             elif field == 'temp':
-                query = query.filter(DataRealTime.temp.contains(search_query))
+                query = query.filter(DataRealTime.temp == float(search_query))
             elif field == 'humidity':
-                query = query.filter(DataRealTime.humidity.contains(search_query))
+                query = query.filter(DataRealTime.humidity == float(search_query))
             elif field == 'light':
-                query = query.filter(DataRealTime.light.contains(search_query))
+                query = query.filter(DataRealTime.light == float(search_query))
             elif field == 'cb':
-                query = query.filter(DataRealTime.cb.contains(search_query))
+                query = query.filter(DataRealTime.cb == float(search_query))
             elif field == 'timestamp':
                 query = query.filter(DataRealTime.timestamp.like(f"%{search_query}%"))
             else:
@@ -60,8 +61,8 @@ def get_sensor_data():
             }
             for log in logs
         ]
-
-        # Return the result with pagination info
+        # print("logs_data:", logs_data)
+        # Return the result with pagination info    
         return jsonify({
             "page": page,
             "limit": limit,
@@ -70,6 +71,8 @@ def get_sensor_data():
         }), 200
 
     except Exception as e:
+        print("An error occurred while fetching sensor data:", e)
+        print(traceback.format_exc())  # This will output the full traceback to the console
         return jsonify({"error": str(e)}), 500
 
     finally:

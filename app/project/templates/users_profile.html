@@ -6,6 +6,18 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Users / Profile - Smart Home</title>
   <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .social-links a img {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
 </head>
 
 <body>
@@ -29,10 +41,18 @@
         <h2>Nguyễn Đình Hải</h2>
         <h3>Reverse Engineering</h3>
         <div class="social-links">
-          <a href="https://github.com/Haind03" target="_blank"><i class="bi bi-github"></i> GitHub</a>
-          <a href="https://www.facebook.com/Halston.ND" target="_blank"><i class="bi bi-facebook"></i> Facebook</a>
-          <a href="#" target="_blank"><i class="bi bi-file-earmark-text"></i> Documentation</a>
-          <a href="#" target="_blank"><i class="bi bi-diagram-3"></i> Swagger</a>
+          <a href="#" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/swag.png') }}" alt="Swagger">
+          </a>
+          <a href="#" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/doc.png') }}" alt="Documentation">
+          </a>
+          <a href="https://www.facebook.com/Halston.ND" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/fb.png') }}" alt="Facebook">
+          </a>
+          <a href="https://github.com/Haind03/IOT" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/git.png') }}" alt="GitHub">
+          </a>
         </div>
       </div>
 

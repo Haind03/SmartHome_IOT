@@ -64,6 +64,7 @@ def get_device_logs():
         }), 200
 
     except Exception as e:
+        print(f"Error: {str(e)}")  # Print error for debugging
         return jsonify({"error": str(e)}), 500
 
     finally:
