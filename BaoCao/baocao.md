@@ -67,7 +67,7 @@ https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downlo
 
 Cài arduino và xem cổng trên máy kết nối, check cổng kết nối trên device. Thường sẽ là COM3.
 
-![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image.png)
+![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image.png)
 
 ### Flash esp8266.
 ```
@@ -136,25 +136,25 @@ Hard resetting via RTS pin...
 
 - Sau khi nạp xong test thử và đã nhận được thông tin từ firmware.
 
-    ![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image-1.png)
+    ![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image-1.png)
 
 ## IV. Giao diện người dùng.
 
 ### 1. Giao diện dashboard
 
-![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image-3.png)
+![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image-3.png)
 
 ### 2. Giao diện lịch sử điều khiển thiết bị- Action History
 
-![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image-4.png)
+![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image-4.png)
 
 ### 3. Giao diện ghi lại dữ liệu Sensor theo thời gian thực- Data Sensor
 
-![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image-5.png)
+![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image-5.png)
 
 ### 4. Giao diện profile
 
-![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image-6.png)
+![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image-6.png)
 
 ## V. Xây dựng mô hình hệ thống.
 
@@ -172,7 +172,7 @@ Hard resetting via RTS pin...
    - Flask có thể gửi tin nhắn đến các thiết bị qua MQTT broker.
    - Publish tin nhắn đến các chủ đề tương ứng trên MQTT broker.
 
-    ![alt text](https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/image-2.png)
+    ![alt text](https://raw.githubusercontent.com/Haind03/SmartHome_IOT/refs/heads/main/BaoCao/image-2.png)
 
 
 ### Kiến Trúc Hệ Thống
