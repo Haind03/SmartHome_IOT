@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Smart Home</title>
+  <link rel="icon" href="/static/assets/img/nha.png" type="image/x-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Inline CSS -->
+  <style>
+    /* General Reset */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Body */
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: #1a1a2e;
+        color: #ffffff;
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Header */
+      .header {
+    background-color: #162447;
+    color: #21e6c1;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .header .logo {
+    color: #21e6c1;
+    text-decoration: none;
+  }
+    /* Sidebar */
+    /* Sidebar */
+    .sidebar {
+    width: 220px;
+    background-color: #1f4068;
+    padding-top: 60px;
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+    .sidebar-nav {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar-nav .nav-item {
+        list-style: none;
+    }
+
+    .sidebar-nav .nav-link {
+        display: block;
+        color: #21e6c1;
+        padding: 15px 20px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.3s, padding-left 0.3s;
+    }
+
+    .sidebar-nav .nav-link:hover {
+        background-color: #2eca6a;
+        color: #ffffff;
+        padding-left: 30px; /* Shift right on hover */
+        border-radius: 5px;
+    }
+
+    /* Main Content Area */
+    .content {
+        flex: 1;
+        margin-left: 220px; /* Adjust to match sidebar width */
+        padding: 80px 20px 20px; /* Reduced padding-top to fit under header */
+    }
+
+    /* Main Chart */
+    .main-chart {
+    background-color: #1f4068;
+    border-radius: 8px;
+    padding: 15px; /* Reduced padding for a more compact look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 30px auto; /* Adds space above and below the chart, centers it */
+    max-width: 1234px; /* Limits the width to keep it manageable */
+    text-align: center;
+}
+
+/* Chart Title */
+.chart-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px; /* Adds a bit more space between title and chart */
+}
+
+/* Charts Row */
+.charts-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px; /* Adds space above the row of small charts */
+    margin-bottom: 30px; /* Adds space below the row for better separation */
+}
+
+
+    /* Small Chart */
+/* Small Chart */
+.small-chart {
+    background-color: #1f4068;
+    border-radius: 8px;
+    padding: 15px; /* Reduced padding for a more compact look */
+    flex: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin: 10px; /* Adds space around each small chart for better separation */
+    max-width: 400px; /* Limit the width to keep charts more manageable */
+}
+
+
+    /* Toggle Switch */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: gray;
+        transition: 0.4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #2eca6a;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
+    /* Device Control Styles */
+    .button-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .device-control {
+        background-color: #1f4068;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 120px;
+        border: 2px solid #21e6c1;
+    }
+
+    .device-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+    }
+
+    .device-label {
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="/" class="logo">
+        <img src="/static/assets/img/nha.png" alt="Logo" style="width: 40px; vertical-align: middle; margin-right: 8px;">
+        Smart Home
+    </a>
+</header>
+
+
+   <!-- Sidebar -->
+   <aside class="sidebar">
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/">
+          <img src="/static/assets/img/dash.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/index2">
+            <img src="/static/assets/img/dash.png" alt="Profile Icon" style="width: 30px; vertical-align: middle; margin-right: 8px;">
+            Dashboard2
+        </a>
+    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="action_history">
+          <img src="/static/assets/img/history.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Action History
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="sensor_data">
+          <img src="/static/assets/img/sensor_data.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Sensor Data
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="users_profile">
+          <img src="/static/assets/img/profile.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Profile
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="main-chart">
+      <div class="chart-title">Dữ liệu (Nhiệt độ, Độ ẩm, Cường độ ánh sáng)</div>
+      <div id="combined-chart"></div>
+    </div>
+
+    <div class="charts-row">
+      <div class="small-chart">
+        <div class="chart-title">Nhiệt độ</div>
+        <div id="temperature-chart"></div>
+      </div>
+      <div class="small-chart">
+        <div class="chart-title">Độ ẩm</div>
+        <div id="humidity-chart"></div>
+      </div>
+      <div class="small-chart">
+        <div class="chart-title">Ánh sáng</div>
+        <div id="light-chart"></div>
+      </div>
+    </div>
+
+    <!-- Control Buttons Section -->
+    <div class="button-container">
+      <div class="device-control">
+          <img src="/static/assets/img/den.png" alt="Light Bulb Icon" class="device-icon">
+          <span class="device-label">Light</span>
+          <label class="switch">
+              <input type="checkbox" id="toggle-device1" onclick="toggleDevice(1)">
+              <span class="slider"></span>
+          </label>
+      </div>
+      <div class="device-control">
+          <img src="/static/assets/img/fan.png" alt="Fan Icon" class="device-icon">
+          <span class="device-label">Fan</span>
+          <label class="switch">
+              <input type="checkbox" id="toggle-device2" onclick="toggleDevice(2)">
+              <span class="slider"></span>
+          </label>
+      </div>
+      <div class="device-control">
+          <img src="/static/assets/img/dieuhoa.jpg" alt="Air Conditioner Icon" class="device-icon">
+          <span class="device-label">Conditioner</span>
+          <label class="switch">
+              <input type="checkbox" id="toggle-device3" onclick="toggleDevice(3)">
+              <span class="slider"></span>
+          </label>
+      </div>
+      <div class="device-control">
+          <img src="/static/assets/img/tatca.jpg" alt="All Icon" class="device-icon">
+          <span class="device-label">All</span>
+          <label class="switch">
+              <input type="checkbox" id="toggle-device4" onclick="toggleDevice(4)">
+              <span class="slider"></span>
+          </label>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+  <!-- Script to Initialize Charts and Handle Real-Time Data -->
+  <script>
+    let temperatureData = [];
+    let humidityData = [];
+    let lightData = [];
+    const maxDataPoints = 10;
+
+    // Initialize combined chart with white-colored labels and tooltips
+    const combinedChart = new ApexCharts(document.querySelector("#combined-chart"), {
+  chart: { type: 'area', height: 300, toolbar: { show: false }, background: '#1f4068' },
+  series: [
+    { name: 'Temperature', data: temperatureData },
+    { name: 'Humidity', data: humidityData },
+    { name: 'Light Intensity', data: lightData }
+  ],
+  colors: ['#21e6c1', '#2eca6a', '#ffc107'],
+  xaxis: { 
+    type: 'category',
+    labels: { 
+      style: { 
+        colors: '#ffffff' // Make x-axis labels white
+      }
+    }
+  },
+  yaxis: { 
+    decimalsInFloat: 1,
+    labels: { 
+      style: { 
+        colors: '#ffffff' // Make y-axis labels white
+      }
+    }
+  },
+  legend: { 
+    labels: { 
+      colors: '#ffffff' // Make legend text white
+    }
+  },
+  tooltip: { 
+    theme: 'dark' // Set tooltip theme to dark for white text
+  },
+  fill: { 
+    type: 'gradient', 
+    gradient: { 
+      shade: 'dark', 
+      type: 'vertical', 
+      opacityFrom: 0.7, 
+      opacityTo: 0.3 
+    } 
+  },
+  stroke: { 
+    width: 2, 
+    curve: 'smooth' 
+  }
+});
+combinedChart.render();
+
+    function createSmallChart(elementId, data, color) {
+      return new ApexCharts(document.querySelector(elementId), {
+        chart: { type: 'area', height: 150, toolbar: { show: false }, background: '#1f4068' },
+        series: [{ name: 'Data', data }],
+        colors: [color],
+        xaxis: { 
+          type: 'category',
+          labels: { style: { colors: '#ffffff' } }
+        },
+        yaxis: {
+          labels: { style: { colors: '#ffffff' } }
+        },
+        fill: { type: 'gradient', gradient: { shade: 'dark', opacityFrom: 0.7, opacityTo: 0.3 } },
+        stroke: { width: 2, curve: 'smooth' },
+        tooltip: { theme: 'dark' }
+      });
+    }
+
+    const temperatureChart = createSmallChart("#temperature-chart", temperatureData, '#21e6c1');
+    const humidityChart = createSmallChart("#humidity-chart", humidityData, '#2eca6a');
+    const lightChart = createSmallChart("#light-chart", lightData, '#ffc107');
+
+    temperatureChart.render();
+    humidityChart.render();
+    lightChart.render();
+
+    // WebSocket connection
+    const socket = io.connect('http://localhost:5000');
+
+    socket.on('sensor_data', function (data) {
+      try {
+        data = JSON.parse(data.message.replace(/'/g, '"'));
+      } catch (error) {
+        console.error('Failed to parse sensor data:', error);
+        return;
+      }
+
+      updateDataArray(temperatureData, data.temperature);
+      updateDataArray(humidityData, data.humidity);
+      updateDataArray(lightData, data.light_level);
+
+      combinedChart.updateSeries([
+        { name: 'Temperature', data: temperatureData },
+        { name: 'Humidity', data: humidityData },
+        { name: 'Light Intensity', data: lightData }
+      ]);
+
+      temperatureChart.updateSeries([{ data: temperatureData.map(point => point.y) }]);
+      humidityChart.updateSeries([{ data: humidityData.map(point => point.y) }]);
+      lightChart.updateSeries([{ data: lightData.map(point => point.y) }]);
+    });
+
+    function updateDataArray(array, newValue) {
+      const timestamp = new Date().toLocaleTimeString();
+      array.push({ x: timestamp, y: newValue });
+      if (array.length > maxDataPoints) array.shift();
+    }
+
+  </script>
+
+  <script>
+async function toggleDevice(deviceNumber) {
+    const toggleSwitch = document.getElementById(`toggle-device${deviceNumber}`);
+    const isOn = toggleSwitch.checked; // Get the state of the checkbox
+    const currentState = isOn ? "ON" : "OFF";
+    let topic;
+
+    // Set the appropriate topic based on device number
+    switch (deviceNumber) {
+        case 1:
+            topic = 'home/light';
+            break;
+        case 2:
+            topic = 'home/fan';
+            break;
+        case 3:
+            topic = 'home/air';
+            break;
+        case 4:
+            topic = 'home/all';
+            break;
+        default:
+            console.error("Invalid device number");
+            return;
+    }
+
+    // If the "All" switch is toggled, update all switches
+    if (deviceNumber === 4) {
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById(`toggle-device${i}`).checked = isOn; // Set the checked state for other devices
+            updateButtonUI(i, currentState); // Update UI for each button
+        }
+    } else {
+        updateButtonUI(deviceNumber, currentState);
+    }
+
+    // Send the command to the API
+    await sendApiRequest(topic, currentState);
+
+    // Store the state in localStorage
+    localStorage.setItem(`device${deviceNumber}`, currentState);
+}
+
+    async function sendApiRequest(topic, cmd) {
+      try {
+        const response = await fetch('/api/v1/device/publish', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cmd: cmd,
+            topic: topic
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+        } else {
+          console.error('Failed to send the command.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Hàm cập nhật giao diện của nút
+    function updateButtonUI(deviceNumber, currentState) {
+      const button = document.getElementById(`toggle-device${deviceNumber}`);
+      if (currentState === "ON") {
+        button.innerHTML = "ON";
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-success');
+      } else {
+        button.innerHTML = "OFF";
+        button.classList.remove('btn-success');
+        button.classList.add('btn-primary');
+      }
+    }
+    function restoreDeviceStates() {
+      for (let i = 1; i <= 4; i++) {
+        const savedState = localStorage.getItem(`device${i}`) || "OFF";
+        updateButtonUI(i, savedState);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", restoreDeviceStates);
+    
+    </script>
+
+ <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Load data from localStorage or generate initial random data
+    var humidityData = JSON.parse(localStorage.getItem('humidityData')) || [];
+    var lightData = JSON.parse(localStorage.getItem('lightData')) || [];
+    var temperatureData = JSON.parse(localStorage.getItem('temperatureData')) || [];
+
+    const maxDataPoints = 10;
+
+    // Generate random data if arrays are empty
+    function generateRandomData() {
+      const now = new Date();
+      for (let i = 0; i < maxDataPoints; i++) {
+        const timestamp = new Date(now - (maxDataPoints - i) * 1000).toLocaleTimeString();
+        temperatureData.push({ x: timestamp, y: (Math.random() * (30 - 25) + 25).toFixed(1) });
+        humidityData.push({ x: timestamp, y: (Math.random() * (70 - 60) + 60).toFixed(1) });
+        lightData.push({ x: timestamp, y: (Math.random() * (800 - 400) + 400).toFixed(1) });
+      }
+    }
+
+    if (humidityData.length === 0 || lightData.length === 0 || temperatureData.length === 0) {
+      generateRandomData();
+    }
+
+    // Initialize chart with initial data
+    const chart = new ApexCharts(document.querySelector("#reportsChart"), {
+      series: [
+        { name: 'Light Intensity', data: lightData },
+        { name: 'Humidity', data: humidityData },
+        { name: 'Temperature', data: temperatureData }
+      ],
+      chart: {
+        height: 350,
+        type: 'area',
+        toolbar: {
+          show: true,
+          tools: { download: true, selection: true, zoom: true, zoomin: true, zoomout: true, pan: true, reset: true },
+          autoSelected: 'zoom'
+        }
+      },
+      colors: ['#4154f1', '#2eca6a', '#ff771d'],
+      fill: {
+        type: "gradient",
+        gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.4, stops: [0, 90, 100] }
+      },
+      stroke: { curve: 'smooth', width: 2 },
+      xaxis: {
+        type: 'category',
+        labels: { format: 'HH:mm:ss' },
+        tooltip: { x: { format: 'HH:mm:ss' } }
+      },
+      yaxis: {
+        decimalsInFloat: 1,
+        min: 0,
+        max: 120
+      },
+      tooltip: { x: { format: 'HH:mm:ss' } }
+    });
+
+    chart.render();
+
+    function updateDataArray(dataArray, newValue) {
+      const timestamp = new Date().toLocaleTimeString();
+      dataArray.push({ x: timestamp, y: newValue });
+      if (dataArray.length > maxDataPoints) {
+        dataArray.shift();
+      }
+    }
+
+    // Connect WebSocket to Flask server (using socketio)
+    var socket = io.connect('http://localhost:5000', {
+      transports: ['polling', 'websocket']
+    });
+
+    socket.on('sensor_data', function (data) {
+      try {
+        // Parse and convert to valid JSON if needed
+        data = JSON.parse(data.message.replace(/'/g, '"'));
+      } catch (error) {
+        console.error('Failed to parse sensor data:', error);
+        return;
+      }
+
+      const vnTime = new Date(new Date().getTime() + (7 * 60 * 60 * 1000));
+      const hours = String(vnTime.getHours()).padStart(2, '0');
+      const minutes = String(vnTime.getMinutes()).padStart(2, '0');
+      const seconds = String(vnTime.getSeconds()).padStart(2, '0');
+      const timestamp = `${hours}:${minutes}:${seconds}`;
+
+      updateDataArray(lightData, { x: timestamp, y: data.light_level });
+      updateDataArray(humidityData, { x: timestamp, y: data.humidity });
+      updateDataArray(temperatureData, { x: timestamp, y: data.temperature });
+
+      chart.updateSeries([
+        { name: 'Light Intensity', data: lightData },
+        { name: 'Humidity', data: humidityData },
+        { name: 'Temperature', data: temperatureData }
+      ]);
+
+      localStorage.setItem('lightData', JSON.stringify(lightData));
+      localStorage.setItem('humidityData', JSON.stringify(humidityData));
+      localStorage.setItem('temperatureData', JSON.stringify(temperatureData));
+      localStorage.setItem('lastUpdate', new Date());
+    });
+  });
+</script>
+
+</body>
+</html>

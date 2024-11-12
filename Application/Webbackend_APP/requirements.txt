@@ -1,0 +1,9 @@
+esptool
+mpremote
+eventlet
+flask
+flask_socketio
+flask_mqtt
+sqlalchemy
+pymysql
+flask_cors

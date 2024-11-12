@@ -1,0 +1,4 @@
+mpremote connect COM3 fs cp esp8266.py :
+mpremote connect COM3 run esp8266.py
+
+SELECT device_name, COUNT(*) AS alert_count FROM devicehistory GROUP BY device_name ORDER BY alert_count DESC;
