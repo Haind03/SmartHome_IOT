@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Users / Profile - Smart Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="/static/assets/img/nha.png" type="image/x-icon">
+  <style>
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .social-links a img {
+      width: 40px;
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="/" class="logo">
+        <img src="/static/assets/img/nha.png" alt="Logo" style="width: 40px; vertical-align: middle; margin-right: 8px;">
+        Smart Home
+    </a>
+</header>
+
+
+ <!-- Sidebar -->
+ <aside class="sidebar">
+  <ul class="sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="/">
+        <img src="/static/assets/img/dash.png" alt="Profile Icon"
+          style="width: 30px; vertical-align: middle; margin-right: 8px;">
+        Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/index2">
+          <img src="/static/assets/img/dash.png" alt="Profile Icon" style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Dashboard2
+      </a>
+  </li>
+    <li class="nav-item">
+      <a class="nav-link" href="action_history">
+        <img src="/static/assets/img/history.png" alt="Profile Icon"
+          style="width: 30px; vertical-align: middle; margin-right: 8px;">
+        Action History
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="sensor_data">
+        <img src="/static/assets/img/sensor_data.png" alt="Profile Icon"
+          style="width: 30px; vertical-align: middle; margin-right: 8px;">
+        Sensor Data
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="users_profile">
+        <img src="/static/assets/img/profile.png" alt="Profile Icon"
+          style="width: 30px; vertical-align: middle; margin-right: 8px;">
+        Profile
+      </a>
+    </li>
+  </ul>
+</aside>
+
+  <main class="main">
+    <section class="profile-container">
+      <!-- Profile Image & Social Links -->
+      <div class="profile-card">
+        <img src="{{ url_for('static', filename='assets/img/image.png') }}" alt="Profile">
+        <h2>Nguyễn Đình Hải</h2>
+        <h3>Reverse Engineering</h3>
+        <br></br>
+        <div class="social-links">
+          <a href="https://documenter.getpostman.com/view/39489332/2sAY4ye1DQ" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/swag.png') }}" alt="postman">
+          </a>
+          <a href="https://github.com/Haind03/SmartHome_IOT/blob/main/BaoCao/baocao.md" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/doc.png') }}" alt="Documentation">
+          </a>
+          <a href="https://www.facebook.com/Halston.ND" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/fb.png') }}" alt="Facebook">
+          </a>
+          <a href="https://github.com/Haind03/SmartHome_IOT" target="_blank">
+            <img src="{{ url_for('static', filename='assets/img/git.png') }}" alt="GitHub">
+          </a>
+        </div>
+      </div>
+
+      <!-- Profile Details Table -->
+      <div class="profile-details">
+        <h3>Profile Details</h3>
+        <table>
+          <tr>
+            <th>Full Name</th>
+            <td>Nguyễn Đình Hải</td>
+          </tr>
+          <tr>
+            <th>Company</th>
+            <td>BlueCyber</td>
+          </tr>
+          <tr>
+            <th>Job</th>
+            <td>Malware Analysis</td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td>Việt Nam</td>
+          </tr>
+          <tr>
+            <th>Address</th>
+            <td>Hà Đông, Hà Nội</td>
+          </tr>
+          <tr>
+            <th>Phone</th>
+            <td>(+84) 912 554 181</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>ndinhhaibn@gmail.com</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </main>
+
+</body>
+
+</html>

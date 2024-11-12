@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Smart Home</title>
+  <link rel="icon" href="/static/assets/img/nha.png" type="image/x-icon">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Inline CSS -->
+  <style>
+    /* General Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Body */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #1a1a2e;
+      color: #ffffff;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header */
+    .header {
+      background-color: #162447;
+      color: #21e6c1;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .header .logo {
+      color: #21e6c1;
+      text-decoration: none;
+    }
+
+    /* Sidebar */
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #1f4068;
+      padding-top: 60px;
+      position: fixed;
+      top: 60px;
+      bottom: 0;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-nav .nav-item {
+      list-style: none;
+    }
+
+    .sidebar-nav .nav-link {
+      display: block;
+      color: #21e6c1;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.3s, padding-left 0.3s;
+    }
+
+    .sidebar-nav .nav-link:hover {
+      background-color: #2eca6a;
+      color: #ffffff;
+      padding-left: 30px;
+      /* Shift right on hover */
+      border-radius: 5px;
+    }
+
+    /* Main Content Area */
+    .content {
+      flex: 1;
+      margin-left: 220px;
+      /* Adjust to match sidebar width */
+      padding: 80px 20px 20px;
+      /* Reduced padding-top to fit under header */
+    }
+
+    /* Main Chart */
+    .main-chart {
+      background-color: #1f4068;
+      border-radius: 8px;
+      padding: 15px;
+      /* Reduced padding for a more compact look */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin: 30px auto;
+      /* Adds space above and below the chart, centers it */
+      max-width: 1234px;
+      /* Limits the width to keep it manageable */
+      text-align: center;
+    }
+
+    /* Chart Title */
+    .chart-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 15px;
+      /* Adds a bit more space between title and chart */
+    }
+
+    /* Charts Row */
+    .charts-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+      /* Adds space above the row of small charts */
+      margin-bottom: 30px;
+      /* Adds space below the row for better separation */
+    }
+
+
+    /* Small Chart */
+    /* Small Chart */
+    .small-chart {
+      background-color: #1f4068;
+      border-radius: 8px;
+      padding: 15px;
+      /* Reduced padding for a more compact look */
+      flex: 1;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      margin: 10px;
+      /* Adds space around each small chart for better separation */
+      max-width: 400px;
+      /* Limit the width to keep charts more manageable */
+    }
+
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: gray;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+
+    /* Device Control Styles */
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .device-control {
+      background-color: #1f4068;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 120px;
+      border: 2px solid #21e6c1;
+    }
+
+    .device-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 5px;
+    }
+
+    .device-label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .value-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1f4068;
+  color: #21e6c1;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 33.33%;
+  max-width: 100%;
+}
+    .horizontal-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: stretch;
+    margin-top: 30px;
+  }
+
+  /* Value Display Box */
+  .value-box {
+    background-color: #1f4068;
+    color: #21e6c1;
+    font-size: 50px;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 25%; /* Ensure equal width */
+    height: 700px;
+  }
+
+  /* Main Chart Container */
+  .main-chart {
+    background-color: #1f4068;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%; /* Ensure equal width */
+    max-width: 100%; /* Avoid exceeding container */
+    text-align: center;
+    
+  }
+
+  /* Control Button Container */
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f4068;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 25%; /* Ensure equal width */
+    max-width: 100%; /* Avoid exceeding container */
+  }
+
+  .device-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1f4068;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  border: 2px solid #21e6c1;
+}
+
+/* Style for the device icon */
+.device-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+.device-label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+#light-warning-box {
+  color: #e7dfdf;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+/* Flashing red background */
+.flashing {
+  background-color: #ff4c4c !important;
+  border-color: #e11616 !important;
+}
+
+/* Optional: Flashing opacity effect for inner warning box */
+.flashing-opacity {
+  animation: flashOpacity 1s infinite alternate;
+}
+
+@keyframes flashOpacity {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="/" class="logo">
+      <img src="/static/assets/img/nha.png" alt="Logo" style="width: 40px; vertical-align: middle; margin-right: 8px;">
+      Smart Home
+    </a>
+  </header>
+
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/">
+          <img src="/static/assets/img/dash.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/index2">
+            <img src="/static/assets/img/dash.png" alt="Profile Icon" style="width: 30px; vertical-align: middle; margin-right: 8px;">
+            Dashboard2
+        </a>
+    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="action_history">
+          <img src="/static/assets/img/history.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Action History
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="sensor_data">
+          <img src="/static/assets/img/sensor_data.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Sensor Data
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="users_profile">
+          <img src="/static/assets/img/profile.png" alt="Profile Icon"
+            style="width: 30px; vertical-align: middle; margin-right: 8px;">
+          Profile
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+
+  <div class="content">
+    <div class="horizontal-container">
+  
+      <!-- Value Display Box -->
+      <div id="value-display" class="value-box">
+        <span id="current-value">--</span>
+      </div>
+  
+      <!-- Main Chart Container -->
+      <div class="main-chart">
+        <div class="chart-title">Dữ liệu (Nhiệt độ, Độ ẩm, Cường độ ánh sáng)</div>
+        <div id="combined-chart" style="height: 120%;"></div>
+      </div>
+  
+      <!-- Control Button Container -->
+      <div class="button-container">
+        <div class="device-control">
+          <img src="/static/assets/img/den.png" alt="Light Bulb Icon" class="device-icon">
+          <span class="device-label">Light</span>
+          <div id="light-warning-box" style="display: none;color: #e7dfdf;">
+            Vượt quá mức cho phép!
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+
+
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+  <!-- Script to Initialize Charts and Handle Real-Time Data -->
+  <script>
+    let temperatureData = [];
+    let humidityData = [];
+    let lightData = [];
+    const maxDataPoints = 10;
+
+    const combinedChart = new ApexCharts(document.querySelector("#combined-chart"), {
+      chart: { type: 'area', height: 300, toolbar: { show: false }, background: '#1f4068' },
+      series: [
+        { name: 'Temperature', data: temperatureData } // Only display the Temperature line
+      ],
+      colors: ['#21e6c1'],
+      xaxis: {
+        type: 'category',
+        labels: {
+          style: {
+            colors: '#ffffff' // Make x-axis labels white
+          }
+        }
+      },
+      yaxis: {
+        decimalsInFloat: 1,
+        labels: {
+          style: {
+            colors: '#ffffff' // Make y-axis labels white
+          }
+        }
+      },
+      legend: {
+        labels: {
+          colors: '#ffffff' // Make legend text white
+        }
+      },
+      tooltip: {
+        theme: 'dark' // Set tooltip theme to dark for white text
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'dark',
+          type: 'vertical',
+          opacityFrom: 0.7,
+          opacityTo: 0.3
+        }
+      },
+      stroke: {
+        width: 2,
+        curve: 'smooth'
+      }
+    });
+    combinedChart.render();
+    const temperatureChart = createSmallChart("#temperature-chart", temperatureData, '#21e6c1');
+
+    // Hiển thị biểu đồ nhỏ
+    temperatureChart.render();
+    const lightWarningBox = document.getElementById('light-warning-box');
+const lightControlBox = document.querySelector('.device-control'); // Select the Light control box
+
+    // Hàm tạo biểu đồ nhỏ
+    function createSmallChart(elementId, data, color) {
+      return new ApexCharts(document.querySelector(elementId), {
+        chart: { type: 'area', height: 150, toolbar: { show: false }, background: '#1f4068' },
+        series: [{ name: 'Data', temperatureData }],
+        colors: [color],
+        xaxis: { type: 'category', labels: { style: { colors: '#ffffff' } } },
+        yaxis: { labels: { style: { colors: '#ffffff' } } },
+        fill: { type: 'gradient', gradient: { shade: 'dark', opacityFrom: 0.7, opacityTo: 0.3 } },
+        stroke: { width: 2, curve: 'smooth' },
+        tooltip: { theme: 'dark' }
+      });
+    }
+    async function sendApiRequest(topic, cmd) {
+      try {
+        const response = await fetch('/api/v1/device/publish', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cmd: cmd,
+            topic: topic
+          })
+        });
+        if (response.ok) {
+          console.log("API request sent successfully");
+        } else {
+          console.error("Failed to send API request");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+    const socket = io.connect('http://localhost:5000');
+
+    let flashingInterval = null;
+
+    socket.on('sensor_data', function (data) {
+      try {
+        data = JSON.parse(data.message.replace(/'/g, '"'));
+      } catch (error) {
+        console.error('Failed to parse sensor data:', error);
+        return;
+      }
+
+      const cbValue = data.cb; // Assuming `cb` is the relevant value
+      updateDataArray(temperatureData, cbValue);
+
+      const lightWarningBox = document.getElementById('light-warning-box');
+
+      if (data.cb > 60) {
+        // Show the warning box
+        lightWarningBox.style.display = 'block';
+        sendApiRequest("home/error", "ON"); // Gửi yêu cầu API với topic "home/error" và cmd "ON"
+
+        // Start the flashing effect if it's not already running
+        if (!flashingInterval) {
+          flashingInterval = setInterval(() => {
+            // Toggle the flashing class to create 1 second on, 1 second off effect
+            lightControlBox.classList.toggle('flashing');
+          }, 1000); // 1000 ms interval for 1 second on, 1 second off
+        }
+
+        // Flash the lightWarningBox with opacity (optional for inner warning box flashing)
+        if (!lightWarningBox.classList.contains('flashing-opacity')) {
+          lightWarningBox.classList.add('flashing-opacity');
+        }
+      } else {
+        // Hide the warning box and stop flashing
+        lightWarningBox.style.display = 'none';
+        lightControlBox.classList.remove('flashing');
+        lightWarningBox.classList.remove('flashing-opacity');
+
+        if (flashingInterval) {
+          clearInterval(flashingInterval); // Clear the interval to stop flashing
+          flashingInterval = null; // Reset interval variable
+        }
+      }
+
+
+      // Update the chart with new data
+      combinedChart.updateSeries([
+        { name: 'Temperature', data: temperatureData },
+      ]);
+      document.getElementById('current-value').textContent = `${data.cb} m/s`;
+    });
+
+    function updateDataArray(array, newValue) {
+      const timestamp = new Date().toLocaleTimeString();
+      array.push({ x: timestamp, y: newValue });
+      if (array.length > maxDataPoints) array.shift();
+    }
+
+  </script>
+
+  <script>
+    async function sendApiRequest(topic, cmd) {
+      try {
+        const response = await fetch('/api/v1/device/publish', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cmd: cmd,
+            topic: topic
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+        } else {
+          console.error('Failed to send the command.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    function restoreDeviceStates() {
+      for (let i = 1; i <= 4; i++) {
+        const savedState = localStorage.getItem(`device${i}`) || "OFF";
+        updateButtonUI(i, savedState);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", restoreDeviceStates);
+
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Load data from localStorage or generate initial random data
+      var cbData = JSON.parse(localStorage.getItem('cbData')) || [];
+      const maxDataPoints = 10;
+
+      // Generate random data if arrays are empty
+
+      // Initialize chart with initial data
+      function updateDataArray(dataArray, newValue) {
+        const timestamp = new Date().toLocaleTimeString();
+        dataArray.push({ x: timestamp, y: newValue });
+        if (dataArray.length > maxDataPoints) {
+          dataArray.shift();
+        }
+      }
+
+      // Connect WebSocket to Flask server (using socketio)
+
+      localStorage.setItem('cbData', JSON.stringify(cbData));
+    });
+  </script>
+
+</body>
+
+</html>
