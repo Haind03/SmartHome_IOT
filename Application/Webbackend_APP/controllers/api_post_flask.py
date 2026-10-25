@@ -6,10 +6,14 @@ from database import get_db
 from datetime import datetime
 from Webbackend_APP.controllers.Data_History_List import save_device_history 
 
+# Chỉ cho phép các topic/lệnh mà giao diện thực sự dùng
+ALLOWED_TOPICS = {'home/light', 'home/fan', 'home/air', 'home/all', 'home/led', 'home/error'}
+ALLOWED_CMDS = {'ON', 'OFF'}
+
 # API xử lý yêu cầu POST để điều khiển thiết bị
 def publish_device():
     # Bước 1: Lấy dữ liệu từ yêu cầu JSON
-    data = request.get_json()
+    data = request.get_json(silent=True)
     if data is None:
         return jsonify({"error": "Thiếu dữ liệu trong yêu cầu"}), 400
     
@@ -19,6 +23,12 @@ def publish_device():
 
     if not cmd or not topic:
         return jsonify({"error": "Thiếu trường bắt buộc: 'cmd' hoặc 'topic'"}), 400
+
+    if not isinstance(cmd, str) or not isinstance(topic, str):
+        return jsonify({"error": "Dữ liệu không hợp lệ"}), 400
+    cmd = cmd.upper()
+    if topic not in ALLOWED_TOPICS or cmd not in ALLOWED_CMDS:
+        return jsonify({"error": "Topic hoặc lệnh không hợp lệ"}), 400
 
     try:
         device = Device(topic, cmd)

@@ -18,6 +18,8 @@ def get_device_logs():
     # Bước 2: Lấy các tham số từ chuỗi truy vấn cho phân trang, tìm kiếm và sắp xếp
     page = request.args.get('page', 1, type=int)  # Số trang hiện tại (mặc định là 1)
     limit = request.args.get('limit', 10, type=int)  # Số bản ghi trên mỗi trang (mặc định là 10)
+    page = max(page or 1, 1)
+    limit = min(max(limit or 10, 1), 100)  # tránh truy vấn quá lớn
     search_query = request.args.get('search', '').strip()  # Từ khóa tìm kiếm, mặc định là trống
     sort_order = request.args.get('sort', 'asc', type=str)  # Thứ tự sắp xếp ('asc' hoặc 'desc')
     field = request.args.get('field', 'device_name', type=str)  # Trường để áp dụng tìm kiếm, mặc định là 'device_name'

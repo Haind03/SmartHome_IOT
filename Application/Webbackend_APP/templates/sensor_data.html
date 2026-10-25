@@ -147,13 +147,11 @@
         if (Array.isArray(result.data) && result.data.length > 0) {
           result.data.forEach(log => {
             const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${log.id}</td>
-              <td>${log.humidity}</td>
-              <td>${log.temp}</td>
-              <td>${log.light}</td>
-              <td>${log.timestamp}</td>
-            `;
+            [log.id, log.humidity, log.temp, log.light, log.timestamp].forEach(value => {
+              const td = document.createElement('td');
+              td.textContent = value;  // textContent để chống XSS
+              row.appendChild(td);
+            });
             tableBody.appendChild(row);
           });
         } else {

@@ -5,14 +5,12 @@ import time
 import dht
 from machine import Pin, ADC
 import socket
+from config import WIFI_SSID, WIFI_PASSWORD, MQTT_USERNAME, MQTT_PASSWORD
 
 # Wi-Fi credentials
-# ssid = 'Haindok'
-# password = '***REMOVED***'
-ssid = 'Haind'
-password = '***REMOVED***'
-# ssid = 'KTX-B1-T1'
-# password = '***REMOVED***'
+# Wi-Fi credentials được khai báo trong config.py (không commit)
+ssid = WIFI_SSID
+password = WIFI_PASSWORD
 # Connect to Wi-Fi
 station = network.WLAN(network.STA_IF)
 station.active(True)
@@ -40,8 +38,7 @@ TOPIC_LED = 'home/led'
 TOPIC_Error = 'home/error'
 
 # MQTT credentials
-MQTT_USERNAME = 'HaiND'
-MQTT_PASSWORD = '***REMOVED***'
+# MQTT_USERNAME / MQTT_PASSWORD được import từ config.py
 
 # Initialize MQTT client with authentication
 client = MQTTClient(

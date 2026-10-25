@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 .env
+# Credentials cho ESP8266 (xem config_example.py)
+config.py

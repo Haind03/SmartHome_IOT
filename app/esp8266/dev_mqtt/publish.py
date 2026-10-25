@@ -3,9 +3,10 @@ import network
 import time
 import dht
 from machine import Pin, ADC
+from config import WIFI_SSID, WIFI_PASSWORD, MQTT_USERNAME, MQTT_PASSWORD
 
-ssid = 'haind03'
-password = '***REMOVED***'
+ssid = WIFI_SSID
+password = WIFI_PASSWORD
 
 # Connect to Wi-Fi
 station = network.WLAN(network.STA_IF)
@@ -27,8 +28,7 @@ CLIENT_ID = 'ESP8266_Client'
 TOPIC_PUB = 'home/sensors'
 
 # MQTT credentials
-MQTT_USERNAME = 'KienNV'
-MQTT_PASSWORD = '***REMOVED***'
+# MQTT_USERNAME / MQTT_PASSWORD được import từ config.py
 
 # Initialize MQTT client with authentication
 client = MQTTClient(

@@ -145,12 +145,11 @@
         result.data.forEach(log => {
           // Create and append each row
           const row = document.createElement('tr');
-          row.innerHTML = `
-                <td>${log.id}</td>
-                <td>${log.device_name}</td>
-                <td>${log.status}</td>
-                <td>${log.timestamp}</td>
-            `;
+          [log.id, log.device_name, log.status, log.timestamp].forEach(value => {
+            const td = document.createElement('td');
+            td.textContent = value;  // textContent để chống XSS
+            row.appendChild(td);
+          });
           tableBody.appendChild(row);
         });
 

@@ -181,7 +181,7 @@ Hard resetting via RTS pin...
 - **Kết nối:** Kết nối tới `mqtt://localhost:1993`.
 - **Thông tin đăng nhập:** Yêu cầu đăng nhập với:
   - **Username:** `HaiND`
-  - **Password:** `***REMOVED***`
+  - **Password:** *(đặt qua biến môi trường `MQTT_PASSWORD`)*
 
 #### Flask Server (HTTP Server)
 - **Cổng:** Lắng nghe trên cổng `4444`.

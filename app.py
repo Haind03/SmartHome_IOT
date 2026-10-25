@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import json
 import time
 import math
+import os
 import paho.mqtt.client as mqtt
 
 app = Flask(__name__)
@@ -86,9 +87,13 @@ mqtt_client.loop_start()
 def home():
     return render_template('home.html')
 
+def get_page():
+    page = request.args.get('page', 1, type=int)
+    return max(page or 1, 1)
+
 @app.route('/logs')
 def logs():
-    page = int(request.args.get('page', 1))
+    page = get_page()
     logs = load_logs(log_file)
     
     total_pages = math.ceil(len(logs) / ITEMS_PER_PAGE)
@@ -101,7 +106,7 @@ def logs():
 
 @app.route('/action_history')
 def action_history():
-    page = int(request.args.get('page', 1))
+    page = get_page()
     logs = load_logs(action_log_file)
     
     total_pages = math.ceil(len(logs) / ITEMS_PER_PAGE)
@@ -118,8 +123,11 @@ def profile():
 
 @app.route('/log_toggle', methods=['POST'])
 def log_toggle():
-    data = request.json
-    
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict) or not isinstance(data.get('device'), str) \
+            or data.get('action') not in ('ON', 'OFF'):
+        return jsonify(success=False, error="Invalid request"), 400
+
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     date_only = time.strftime('%Y-%m-%d')
 
@@ -146,10 +154,16 @@ def log_toggle():
 
 @app.route('/publish', methods=['POST'])
 def publish():
-    topic = request.json['topic']
-    message = request.json['message']
+    data = request.get_json(silent=True) or {}
+    topic = data.get('topic')
+    message = data.get('message')
+    # Chỉ cho publish vào nhánh home/ (không wildcard) với message ngắn
+    if (not isinstance(topic, str) or not isinstance(message, str)
+            or not topic.startswith('home/') or '#' in topic or '+' in topic
+            or len(topic) > 64 or len(message) > 256):
+        return jsonify(success=False, error="Invalid topic or message"), 400
     mqtt_client.publish(topic, message)
     return jsonify(success=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=os.environ.get('FLASK_DEBUG', 'false').lower() == 'true')
