@@ -1,13 +1,14 @@
+import os
 import subprocess
 
 class Device:
     def __init__(self, topic, cmd):
         self.topic = topic
         self.cmd = cmd
-        self.broker = '192.168.1.7'
-        self.port = '1993'
-        self.username = 'HaiND'
-        self.password = '***REMOVED***'
+        self.broker = os.environ.get('MQTT_BROKER_URL', 'localhost')
+        self.port = os.environ.get('MQTT_BROKER_PORT', '1993')
+        self.username = os.environ.get('MQTT_USERNAME', '')
+        self.password = os.environ.get('MQTT_PASSWORD', '')
 
     def publish(self):
         # Lệnh mosquitto_pub

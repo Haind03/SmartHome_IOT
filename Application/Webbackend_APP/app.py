@@ -5,6 +5,9 @@ import random
 import json
 sys.path.append('d:/PTIT_Project/IOTapp/Application')
 
+import ast
+import os
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 from flask_mqtt import Mqtt
@@ -17,20 +20,21 @@ from Webbackend_APP.controllers.Data_Sensor_List import save_sensor_data
 app = Flask(__name__)
 
 # MQTT Configuration
-# app.config['MQTT_BROKER_URL'] = '192.168.1.5'  # Set your broker's URL
-app.config['MQTT_BROKER_URL'] = '172.20.10.3'  # Set your broker's URL
-app.config['MQTT_BROKER_PORT'] = 1993  # Set your broker's port
-app.config['MQTT_USERNAME'] = 'HaiND'  # Set broker username if needed
-app.config['MQTT_PASSWORD'] = '***REMOVED***'  # Set broker password if needed
+app.config['MQTT_BROKER_URL'] = os.environ.get('MQTT_BROKER_URL', 'localhost')
+app.config['MQTT_BROKER_PORT'] = int(os.environ.get('MQTT_BROKER_PORT', '1993'))
+app.config['MQTT_USERNAME'] = os.environ.get('MQTT_USERNAME', '')
+app.config['MQTT_PASSWORD'] = os.environ.get('MQTT_PASSWORD', '')
 app.config['MQTT_KEEPALIVE'] = 60
-app.config['MQTT_TLS_ENABLED'] = False  # Set to True if using TLS
+app.config['MQTT_TLS_ENABLED'] = os.environ.get('MQTT_TLS_ENABLED', 'false').lower() == 'true'
 
 # Enable CORS
-CORS(app)
+# Chỉ cho phép các origin được cấu hình (mặc định: same-origin)
+ALLOWED_ORIGINS = [o for o in os.environ.get('CORS_ORIGINS', '').split(',') if o]
+CORS(app, origins=ALLOWED_ORIGINS)
 
 # Initialize Flask-SocketIO and Flask-MQTT
 mqtt = Mqtt(app)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
+socketio = SocketIO(app, cors_allowed_origins=ALLOWED_ORIGINS or None, async_mode="eventlet")
 
 @app.route('/')
 def index():
@@ -67,6 +71,24 @@ def api_get_device_logs():
 def api_get_sensor_data():
     return get_sensor_data()
 
+def parse_sensor_payload(payload):
+    """Parse payload cảm biến (JSON hoặc repr dict từ ESP8266) một cách an toàn."""
+    try:
+        data = json.loads(payload)
+    except ValueError:
+        try:
+            data = ast.literal_eval(payload)
+        except (ValueError, SyntaxError):
+            print("Invalid sensor payload")
+            return None
+    if not isinstance(data, dict):
+        return None
+    try:
+        return {k: float(data[k]) for k in ("temperature", "humidity", "light_level")}
+    except (KeyError, TypeError, ValueError):
+        print("Invalid sensor payload")
+        return None
+
 # MQTT Event Handlers
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
@@ -79,8 +101,10 @@ def handle_mqtt_message(client, userdata, message):
     print(f"Received MQTT message: {payload} on topic: {message.topic}")
     
     try:
-        tmp = eval(payload)
-        
+        tmp = parse_sensor_payload(payload)
+        if tmp is None:
+            return
+
         tmp["cb"] = round(random.uniform(0, 100), 1)  # Add a random value between 0 and 100
         
         save_sensor_data(tmp["temperature"], tmp["humidity"], tmp["light_level"], tmp["cb"])
@@ -94,4 +118,5 @@ def handle_mqtt_message(client, userdata, message):
 
 # Run the Flask app with Socket.IO and MQTT support using Eventlet
 if __name__ == '__main__':
-    socketio.run(app, port=5000, debug=True, use_reloader=False)
+    debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    socketio.run(app, port=5000, debug=debug, use_reloader=False)
