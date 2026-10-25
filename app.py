@@ -7,10 +7,15 @@ import paho.mqtt.client as mqtt
 
 app = Flask(__name__)
 
-# MQTT setup
-mqtt_broker = "broker.hivemq.com"
-mqtt_port = 1883
+# MQTT setup (cấu hình qua biến môi trường; mặc định là broker demo công khai)
+mqtt_broker = os.environ.get("MQTT_BROKER_URL", "broker.hivemq.com")
+mqtt_port = int(os.environ.get("MQTT_BROKER_PORT", "1883"))
+mqtt_ws_url = os.environ.get("MQTT_WS_URL", "wss://broker.hivemq.com:8000/mqtt")
 mqtt_client = mqtt.Client()
+if os.environ.get("MQTT_USERNAME"):
+    mqtt_client.username_pw_set(os.environ["MQTT_USERNAME"], os.environ.get("MQTT_PASSWORD", ""))
+if os.environ.get("MQTT_TLS_ENABLED", "false").lower() == "true":
+    mqtt_client.tls_set()
 
 # Logs storage
 log_file = "mqtt_logs.json"
@@ -82,6 +87,10 @@ mqtt_client.on_message = on_message
 mqtt_client.connect(mqtt_broker, mqtt_port)
 mqtt_client.subscribe("home/#")
 mqtt_client.loop_start()
+
+@app.context_processor
+def inject_mqtt_ws_url():
+    return {"mqtt_ws_url": mqtt_ws_url}
 
 @app.route('/')
 def home():

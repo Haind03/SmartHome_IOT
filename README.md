@@ -118,6 +118,7 @@ MQTT_BROKER_PORT=1993
 MQTT_USERNAME=HaiND
 MQTT_PASSWORD=<mật-khẩu-mqtt>
 MQTT_TLS_ENABLED=false
+MQTT_WS_URL=wss://<broker>:<port>/mqtt   # chỉ dùng cho dashboard app.py ở thư mục gốc
 
 DATABASE_URL=mysql+pymysql://<user>:<pass>@localhost/iot_sms
 CORS_ORIGINS=            # để trống = chỉ cho phép same-origin; nhiều origin cách nhau bằng dấu phẩy

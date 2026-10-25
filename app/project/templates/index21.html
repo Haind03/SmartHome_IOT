@@ -274,7 +274,7 @@
 
   <!-- Template Main JS File -->
   <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
-  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.8.4/dist/socket.io.min.js" integrity="sha384-fBrXvbDtHoeKWJ/hcA6M+YGueiDW+h45I7V6F2kD1S8bOkrF9rZYPLVkCR6BLR/1" crossorigin="anonymous"></script>
   <script>async function toggleDevice(deviceNumber) {
       const button = document.getElementById(`toggle-device${deviceNumber}`);
       let currentState = button.innerHTML === "OFF" ? "ON" : "OFF";
