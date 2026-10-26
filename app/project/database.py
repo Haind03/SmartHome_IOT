@@ -1,10 +1,11 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import eventlet
 
 # Connection string for MySQL (replace user, password, host, and database as per your configuration)
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/iot_sms"
+SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL", "mysql+pymysql://root:@localhost/iot_sms")
 
 # Create the database engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

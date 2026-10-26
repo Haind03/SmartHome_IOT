@@ -102,7 +102,7 @@ flowchart LR
 - **MQTT Broker**  
   - Kết nối: `mqtt://localhost:1993`  
   - **Username:** `HaiND`  
-  - **Password:** `***REMOVED***`  
+  - **Password:** đặt qua biến môi trường `MQTT_PASSWORD` (không ghi vào repo)  
 - **Flask Server (HTTP + WebSocket)**  
   - Cổng HTTP: `4444`  
   - Route chính:  
@@ -110,19 +110,23 @@ flowchart LR
     - `/api/v1/device/*`
   - WebSocket cùng host (Socket.IO/eventlet).
 
-### Gợi ý `.env`
+### Biến môi trường
+Backend Flask đọc cấu hình từ biến môi trường (file `.env` đã được `.gitignore`):
 ```bash
-MQTT_HOST=localhost
-MQTT_PORT=1993
+MQTT_BROKER_URL=localhost
+MQTT_BROKER_PORT=1993
 MQTT_USERNAME=HaiND
-MQTT_PASSWORD=***REMOVED***
+MQTT_PASSWORD=<mật-khẩu-mqtt>
+MQTT_TLS_ENABLED=false
+MQTT_WS_URL=wss://<broker>:<port>/mqtt   # chỉ dùng cho dashboard app.py ở thư mục gốc
 
-FLASK_HOST=0.0.0.0
-FLASK_PORT=4444
-SECRET_KEY=change-me
-DATABASE_URL=sqlite:///./smarthome.db
-# MySQL ví dụ: DATABASE_URL=mysql+pymysql://user:pass@db:3306/smarthome
+DATABASE_URL=mysql+pymysql://<user>:<pass>@localhost/iot_sms
+CORS_ORIGINS=            # để trống = chỉ cho phép same-origin; nhiều origin cách nhau bằng dấu phẩy
+FLASK_DEBUG=false        # chỉ bật true khi dev local
 ```
+
+Trên ESP8266, copy `config_example.py` thành `config.py`, điền Wi-Fi/MQTT credentials rồi upload lên board
+(`mpremote connect COM3 fs cp config.py :`). `config.py` không được commit.
 
 ---
 
@@ -358,12 +362,12 @@ gunicorn -k eventlet -w 1 app:app --bind 0.0.0.0:4444
 **Kiểm thử MQTT cục bộ**
 ```bash
 # Publish cảm biến giả lập
-mosquitto_pub -h localhost -p 1993 -u HaiND -P ***REMOVED*** \
+mosquitto_pub -h localhost -p 1993 -u HaiND -P "$MQTT_PASSWORD" \
   -t home/sensor/dht22/dht22-01 \
   -m '{"device_id":"dht22-01","temp":27.6,"humidity":63,"light":420,"ts":"2025-09-23T03:00:11Z"}'
 
 # Subscribe theo dõi
-mosquitto_sub -h localhost -p 1993 -u HaiND -P ***REMOVED*** -t 'home/#' -v
+mosquitto_sub -h localhost -p 1993 -u HaiND -P "$MQTT_PASSWORD" -t 'home/#' -v
 ```
 
 ---

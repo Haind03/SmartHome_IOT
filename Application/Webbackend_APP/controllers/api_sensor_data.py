@@ -16,6 +16,8 @@ def get_sensor_data():
     
     # 'limit' xác định số bản ghi trả về trên mỗi trang; giá trị mặc định là 10
     limit = request.args.get('limit', 10, type=int)
+    page = max(page or 1, 1)
+    limit = min(max(limit or 10, 1), 100)  # tránh truy vấn quá lớn
 
     # Lấy từ khóa tìm kiếm, nếu có, để lọc kết quả theo giá trị cụ thể
     search_query = request.args.get('search', '').strip()
@@ -115,7 +117,7 @@ def get_sensor_data():
         print(traceback.format_exc())  # Xuất traceback chi tiết ra console
 
         # Trả về phản hồi JSON với thông báo lỗi
-        return jsonify({"error": str(e)}), 500  # Mã HTTP 500 báo hiệu lỗi máy chủ
+        return jsonify({"error": "Lỗi máy chủ nội bộ"}), 500  # Mã HTTP 500 báo hiệu lỗi máy chủ
 
     finally:
         # Luôn đóng session cơ sở dữ liệu để giải phóng tài nguyên sau mỗi yêu cầu

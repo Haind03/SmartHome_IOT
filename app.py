@@ -2,14 +2,20 @@ from flask import Flask, render_template, request, jsonify
 import json
 import time
 import math
+import os
 import paho.mqtt.client as mqtt
 
 app = Flask(__name__)
 
-# MQTT setup
-mqtt_broker = "broker.hivemq.com"
-mqtt_port = 1883
+# MQTT setup (cấu hình qua biến môi trường; mặc định là broker demo công khai)
+mqtt_broker = os.environ.get("MQTT_BROKER_URL", "broker.hivemq.com")
+mqtt_port = int(os.environ.get("MQTT_BROKER_PORT", "1883"))
+mqtt_ws_url = os.environ.get("MQTT_WS_URL", "wss://broker.hivemq.com:8000/mqtt")
 mqtt_client = mqtt.Client()
+if os.environ.get("MQTT_USERNAME"):
+    mqtt_client.username_pw_set(os.environ["MQTT_USERNAME"], os.environ.get("MQTT_PASSWORD", ""))
+if os.environ.get("MQTT_TLS_ENABLED", "false").lower() == "true":
+    mqtt_client.tls_set()
 
 # Logs storage
 log_file = "mqtt_logs.json"
@@ -82,13 +88,21 @@ mqtt_client.connect(mqtt_broker, mqtt_port)
 mqtt_client.subscribe("home/#")
 mqtt_client.loop_start()
 
+@app.context_processor
+def inject_mqtt_ws_url():
+    return {"mqtt_ws_url": mqtt_ws_url}
+
 @app.route('/')
 def home():
     return render_template('home.html')
 
+def get_page():
+    page = request.args.get('page', 1, type=int)
+    return max(page or 1, 1)
+
 @app.route('/logs')
 def logs():
-    page = int(request.args.get('page', 1))
+    page = get_page()
     logs = load_logs(log_file)
     
     total_pages = math.ceil(len(logs) / ITEMS_PER_PAGE)
@@ -101,7 +115,7 @@ def logs():
 
 @app.route('/action_history')
 def action_history():
-    page = int(request.args.get('page', 1))
+    page = get_page()
     logs = load_logs(action_log_file)
     
     total_pages = math.ceil(len(logs) / ITEMS_PER_PAGE)
@@ -118,8 +132,11 @@ def profile():
 
 @app.route('/log_toggle', methods=['POST'])
 def log_toggle():
-    data = request.json
-    
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict) or not isinstance(data.get('device'), str) \
+            or data.get('action') not in ('ON', 'OFF'):
+        return jsonify(success=False, error="Invalid request"), 400
+
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     date_only = time.strftime('%Y-%m-%d')
 
@@ -146,10 +163,16 @@ def log_toggle():
 
 @app.route('/publish', methods=['POST'])
 def publish():
-    topic = request.json['topic']
-    message = request.json['message']
+    data = request.get_json(silent=True) or {}
+    topic = data.get('topic')
+    message = data.get('message')
+    # Chỉ cho publish vào nhánh home/ (không wildcard) với message ngắn
+    if (not isinstance(topic, str) or not isinstance(message, str)
+            or not topic.startswith('home/') or '#' in topic or '+' in topic
+            or len(topic) > 64 or len(message) > 256):
+        return jsonify(success=False, error="Invalid topic or message"), 400
     mqtt_client.publish(topic, message)
     return jsonify(success=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=os.environ.get('FLASK_DEBUG', 'false').lower() == 'true')

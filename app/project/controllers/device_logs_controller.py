@@ -11,6 +11,8 @@ def get_device_logs():
     # Get pagination, search, and sorting parameters from the query string
     page = request.args.get('page', 1, type=int)  # Current page (default is 1)
     limit = request.args.get('limit', 10, type=int)  # Number of logs per page (default is 10)
+    page = max(page or 1, 1)
+    limit = min(max(limit or 10, 1), 100)  # tránh truy vấn quá lớn
     search_query = request.args.get('search', '').strip()  # Search keyword (if any)
     sort_order = request.args.get('sort', 'asc', type=str)  # Sort order (asc or desc)
     field = request.args.get('field', 'device_name', type=str)  # Field to search
@@ -65,7 +67,7 @@ def get_device_logs():
 
     except Exception as e:
         print(f"Error: {str(e)}")  # Print error for debugging
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Internal server error"}), 500
 
     finally:
         db.close()  # Ensure the session is closed after the query

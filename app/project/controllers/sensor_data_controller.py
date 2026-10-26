@@ -12,6 +12,8 @@ def get_sensor_data():
     # Get pagination, search, and sorting parameters from the query string
     page = request.args.get('page', 1, type=int)  # Current page (default is 1)
     limit = request.args.get('limit', 10, type=int)  # Number of logs per page (default is 10)
+    page = max(page or 1, 1)
+    limit = min(max(limit or 10, 1), 100)  # tránh truy vấn quá lớn
     search_query = request.args.get('search', '').strip()  # Search keyword (if any)
     sort_order = request.args.get('sort', 'asc', type=str)  # Sort order (asc or desc)
     field = request.args.get('field', 'cb', type=str)  # Field to search
@@ -70,10 +72,13 @@ def get_sensor_data():
             "data": logs_data
         }), 200
 
+    except ValueError:
+        return jsonify({"error": "Invalid search value"}), 400
+
     except Exception as e:
         print("An error occurred while fetching sensor data:", e)
         print(traceback.format_exc())  # This will output the full traceback to the console
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Internal server error"}), 500
 
     finally:
         db.close()  # Ensure the session is closed after the query

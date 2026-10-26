@@ -1,10 +1,11 @@
+import os
 from sqlalchemy import create_engine, Column, Integer, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
 # Cấu hình SQLAlchemy
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/iot_sms"  # Cập nhật thông tin kết nối
+SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL", "mysql+pymysql://root:@localhost/iot_sms")
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

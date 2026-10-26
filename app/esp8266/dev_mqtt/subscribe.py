@@ -1,13 +1,14 @@
 import paho.mqtt.client as mqtt
 import base64
+import os
 
 
 # mqtt info
-mqtt_broker_ip = "172.20.10.3"
-port = 1993
+mqtt_broker_ip = os.environ.get("MQTT_BROKER_URL", "172.20.10.3")
+port = int(os.environ.get("MQTT_BROKER_PORT", "1993"))
 topic = "home/sensors"
-username = "haind"         
-passwd = "***REMOVED***"     
+username = os.environ.get("MQTT_USERNAME", "")
+passwd = os.environ.get("MQTT_PASSWORD", "")
 
 # call back function
 def on_connect(client, userdata, flags, rc):

@@ -1,4 +1,5 @@
-const client = mqtt.connect('wss://broker.hivemq.com:8000/mqtt');
+// URL broker WebSocket do server cấu hình (biến môi trường MQTT_WS_URL)
+const client = mqtt.connect(window.MQTT_WS_URL || 'wss://broker.hivemq.com:8000/mqtt');
 
 function generateTimeLabels() {
     const labels = [];
